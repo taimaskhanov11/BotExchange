@@ -1,0 +1,327 @@
+# Translations template for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-03-31 01:12+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: botexchange/apps/bot/handlers/base_menu.py:11
+msgid ""
+"Добро пожаловать в бесплатную биржу Тelegram рекламы. Тут вы сможете "
+"найти каналы/ботов для размещения своего объявления, либо предоставить "
+"свой канал/бота для размещения чужих объявлений. С чего начнем?"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/buy_ads_menu.py:35
+msgid "Выберите тип Телеграм-площадки"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/buy_ads_menu.py:43
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:176
+msgid "Выберите интересующие тематики"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/buy_ads_menu.py:51
+msgid "Укажите желаемый объем аудитории"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/buy_ads_menu.py:59
+msgid "Укажите бюджет за размещение"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/buy_ads_menu.py:67
+msgid "Вам подойдут следующие площадки"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:46
+msgid "Пришлите юзернейм бота"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:49
+msgid ""
+"Добавьте @Ad Maker Bot в список администраторов вашего канала или чата, и"
+" перешлите сюда любое сообщение из него. Только таким образом мы сможем "
+"собрать точное число подписчиков, удостовериться что канал существует, и "
+"что вы его администратор.\n"
+"\n"
+"Не беспокойтесь - бот не будет как-либо взаимодействовать с вашей "
+"аудиторией или каналом, а только соберет актуальную информацию о нем.\n"
+"\n"
+"Бот должен являться администратором канала на протяжении всего срока "
+"размещения площадки, иначе она будет изъята из каталога досрочно"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:64
+msgid "Проверка успешно завершена"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:72
+msgid "Выберите тематику вашей площадки"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:80
+msgid ""
+"Пришлите текст, описывающий вашу площадку. Нужно уместиться в 80 символов"
+"\n"
+"\n"
+"Например: “канал про топовые гаджеты с активной и вовлеченной аудиторией” "
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:93
+msgid ""
+"Укажите цену, которую собираетесь брать за размещение рекламы. Не "
+"забудьте указать валюту!\n"
+"\n"
+"Например: “От 1 000 до 2 000 руб”"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:107
+msgid "Выберите способ связи с вами. Он будет отображаться в вашем объявлении"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:119
+msgid ""
+"Введите номер телефона\n"
+"\n"
+"Например: ”+7 999 999 99 99”"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:121
+msgid ""
+"Введите Email\n"
+"\n"
+"Например: ”example@example.com”"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:125
+msgid "Телеграмм успешно добавлен"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:143
+msgid "Номер"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:145
+#: botexchange/apps/bot/markups/sell_ads.py:73
+#: botexchange/apps/bot/markups/sell_ads.py:84
+msgid "Имейл"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:147
+msgid "Телеграм"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:150
+msgid "{communicate} добавлен. Желаете казать дополнительный контакт?"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sell_ads_menu.py:161
+msgid ""
+"Площадка успешно добавлена в каталог на 15 дней. По истечении срока вы "
+"сможете повторно добавить ее в каталог через раздел “мои площадки”"
+msgstr ""
+
+#: botexchange/apps/bot/markups/base_menu.py:10
+msgid "У меня есть реклама"
+msgstr ""
+
+#: botexchange/apps/bot/markups/base_menu.py:11
+msgid "У меня есть площадка для рекламы"
+msgstr ""
+
+#: botexchange/apps/bot/markups/base_menu.py:12
+msgid "Язык (language)"
+msgstr ""
+
+#: botexchange/apps/bot/markups/base_menu.py:13
+msgid "Поддержка"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:11
+msgid "Каналы"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:12
+msgid "Боты"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:13
+msgid "Чаты"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:14
+#: botexchange/apps/bot/markups/buy_ads.py:23
+#: botexchange/apps/bot/markups/buy_ads.py:42
+msgid "Любой"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:15
+#: botexchange/apps/bot/markups/buy_ads.py:33
+#: botexchange/apps/bot/markups/buy_ads.py:52
+#: botexchange/apps/bot/markups/sell_ads.py:13
+#: botexchange/apps/bot/markups/sell_ads.py:23
+#: botexchange/apps/bot/markups/sell_ads.py:31
+#: botexchange/apps/bot/markups/sell_ads.py:40
+#: botexchange/apps/bot/markups/sell_ads.py:48
+#: botexchange/apps/bot/markups/sell_ads.py:56
+#: botexchange/apps/bot/markups/sell_ads.py:64
+#: botexchange/apps/bot/markups/sell_ads.py:75
+#: botexchange/apps/bot/markups/sell_ads.py:98
+#: botexchange/apps/bot/markups/utils.py:31
+msgid "Назад"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:24
+#: botexchange/apps/bot/markups/buy_ads.py:43
+msgid "0-1к"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:26
+#: botexchange/apps/bot/markups/buy_ads.py:45
+msgid "1к-10к"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:27
+#: botexchange/apps/bot/markups/buy_ads.py:46
+msgid "10к-100к"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:29
+#: botexchange/apps/bot/markups/buy_ads.py:48
+msgid "100к-1кк"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:30
+#: botexchange/apps/bot/markups/buy_ads.py:49
+msgid "Более 1кк"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:32
+#: botexchange/apps/bot/markups/buy_ads.py:51
+msgid "Указать произвольный диапазон"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:61
+msgid "Изм. тип площадки"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:62
+msgid "Изм. тематику"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:64
+msgid "Изм. аудиторию"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:65
+msgid "Изм. бюджет"
+msgstr ""
+
+#: botexchange/apps/bot/markups/buy_ads.py:67
+#: botexchange/apps/bot/markups/sell_ads.py:97
+msgid "Главное меню"
+msgstr ""
+
+#: botexchange/apps/bot/markups/sell_ads.py:11
+msgid "Добавить площадку"
+msgstr ""
+
+#: botexchange/apps/bot/markups/sell_ads.py:12
+#: botexchange/apps/bot/markups/sell_ads.py:95
+msgid "Мои площадки"
+msgstr ""
+
+#: botexchange/apps/bot/markups/sell_ads.py:21
+msgid "Канал / чат"
+msgstr ""
+
+#: botexchange/apps/bot/markups/sell_ads.py:22
+msgid "Бот"
+msgstr ""
+
+#: botexchange/apps/bot/markups/sell_ads.py:39
+msgid "Готово"
+msgstr ""
+
+#: botexchange/apps/bot/markups/sell_ads.py:72
+#: botexchange/apps/bot/markups/sell_ads.py:83
+msgid "Телефон"
+msgstr ""
+
+#: botexchange/apps/bot/markups/sell_ads.py:74
+#: botexchange/apps/bot/markups/sell_ads.py:85
+msgid "Использовать этот TG профиль"
+msgstr ""
+
+#: botexchange/apps/bot/markups/sell_ads.py:86
+msgid "Опубликовать площадку"
+msgstr ""
+
+#: botexchange/apps/bot/markups/sell_ads.py:96
+msgid "Добавить еще площадку"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:12
+msgid "Авто/Мото"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:13
+msgid "Спорт"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:15
+msgid "Крипта"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:16
+msgid "Инвестиции"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:18
+msgid "Авторский блог"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:19
+msgid "Новости"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:21
+msgid "Мемы"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:22
+msgid "Музыка"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:24
+msgid "Фильмы"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:25
+msgid "18+"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:27
+msgid "Влево"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:28
+msgid "Далее"
+msgstr ""
+
+#: botexchange/apps/bot/markups/utils.py:29
+msgid "Вправо"
+msgstr ""
+
