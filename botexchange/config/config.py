@@ -1,4 +1,3 @@
-import typing
 from pathlib import Path
 from typing import Optional
 
@@ -31,7 +30,7 @@ class Config(BaseModel):
     db: Database
 
 
-I18N_DOMAIN = 'botexchange'
+I18N_DOMAIN = "botexchange"
 LOCALES_DIR = BASE_DIR / "botexchange/apps/bot/locales"
 
 config = Config(**load_yaml("config_dev.yml"))

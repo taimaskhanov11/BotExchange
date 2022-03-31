@@ -6,9 +6,8 @@ from aiogram.types import BotCommand
 from loguru import logger
 
 from botexchange.apps.bot.handlers.base_menu import register_base_handlers
-from botexchange.apps.bot.handlers.buy_ads_menu import register_buy_ads_handlers
-from botexchange.apps.bot.handlers.sell_ads_menu import register_sell_ads_handlers
-from botexchange.apps.bot.middleware.test_middleware import TestMiddleware
+from botexchange.apps.bot.handlers.buying_ads_menu import register_buy_ads_handlers
+from botexchange.apps.bot.handlers.sale_ads_menu import register_sell_ads_handlers
 from botexchange.config.log_settings import init_logging
 from botexchange.db.db_main import init_tortoise
 from botexchange.loader import bot, dp
@@ -23,10 +22,7 @@ async def set_commands(bot: Bot):
 
 async def main():
     # Настройка логирования
-    init_logging(old_logger=True,
-                 level="TRACE",
-                 old_level=logging.DEBUG,
-                 steaming=True)
+    init_logging(old_logger=True, level="TRACE", old_level=logging.DEBUG, steaming=True)
     logger.info(f"Starting bot {(await bot.get_me()).username}")
 
     await init_tortoise()
@@ -43,6 +39,7 @@ async def main():
 
     # Регистрация middleware
     # dp.middleware.setup(TestMiddleware())
+    # dp.middleware.setup(AuthMiddleware())
     # todo 19.03.2022 17:42 taima:
     # dp.middleware.setup(ThrottlingMiddleware(limit=0.5))
 

@@ -1,4 +1,3 @@
-from aiogram import types
 from tortoise import models, fields
 
 
@@ -10,5 +9,6 @@ class User(models.Model):
     language = fields.CharField(max_length=3)
     referral = fields.ForeignKeyField("models.User", null=True)
 
-
-
+    async def set_language(self, language):
+        self.language = language
+        await self.save()

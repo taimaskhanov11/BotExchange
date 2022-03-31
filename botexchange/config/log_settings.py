@@ -10,11 +10,7 @@ LOG_DIR = Path(Path(BASE_DIR, "logs"))
 LOG_DIR.mkdir(exist_ok=True)
 
 
-def init_logging(filename="",
-                 old_logger=True,
-                 level="TRACE",
-                 old_level=logging.INFO,
-                 steaming=True):
+def init_logging(filename="", old_logger=True, level="TRACE", old_level=logging.INFO, steaming=True):
 
     log.remove()
     if steaming:
