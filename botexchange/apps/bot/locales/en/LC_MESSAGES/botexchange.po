@@ -51,7 +51,7 @@ msgstr "The following sites will suit you"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:46
 msgid "Пришлите юзернейм бота"
-msgstr ""
+msgstr "Send the username of the bot"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:49
 msgid ""
@@ -66,10 +66,21 @@ msgid ""
 "Бот должен являться администратором канала на протяжении всего срока "
 "размещения площадки, иначе она будет изъята из каталога досрочно"
 msgstr ""
+"Add @Ad Maker Bot to the list of administrators of your channel or chat, "
+"and forward any message from it here. Only in this way we will be able to"
+" collect the exact number of subscribers, make sure that the channel "
+"exists, and that you are its administrator. \n"
+"\n"
+"Don't worry - the bot will not interact with your  audience or channel in"
+" any way, but will only collect up-to-date information about it.\n"
+"\n"
+"The bot must be the administrator of the channel throughout the entire "
+"period of placement of the site, otherwise it will be removed from the "
+"catalog ahead of schedule"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:64
 msgid "Проверка успешно завершена"
-msgstr ""
+msgstr "Verification completed successfully"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:72
 #, fuzzy
@@ -83,6 +94,10 @@ msgid ""
 "\n"
 "Например: “канал про топовые гаджеты с активной и вовлеченной аудиторией” "
 msgstr ""
+"Send a text describing your site. You need to fit in 80 characters\n"
+"\n"
+"For example: “channel about top gadgets with an active and engaged "
+"audience” "
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:93
 msgid ""
@@ -91,10 +106,14 @@ msgid ""
 "\n"
 "Например: “От 1 000 до 2 000 руб”"
 msgstr ""
+"Specify the price you are going to charge for advertising. Don't  forget "
+"to specify the currency!\n"
+"\n"
+"For example: “From 1,000 to 2,000 rubles”"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:107
 msgid "Выберите способ связи с вами. Он будет отображаться в вашем объявлении"
-msgstr ""
+msgstr "Choose a way to contact you. It will be displayed in your ad"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:119
 msgid ""
@@ -102,6 +121,9 @@ msgid ""
 "\n"
 "Например: ”+7 999 999 99 99”"
 msgstr ""
+"Enter the phone number \n"
+"\n"
+"For example: ”+7 999 999 99 99”"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:121
 msgid ""
@@ -109,34 +131,40 @@ msgid ""
 "\n"
 "Например: ”example@example.com”"
 msgstr ""
+"Enter Email\n"
+"\n"
+"For Example: ”example@example.com ”"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:125
 msgid "Телеграмм успешно добавлен"
-msgstr ""
+msgstr "Telegram successfully added"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:143
 msgid "Номер"
-msgstr ""
+msgstr "Number"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:145
 #: botexchange/apps/bot/markups/sell_ads.py:73
 #: botexchange/apps/bot/markups/sell_ads.py:84
 msgid "Имейл"
-msgstr ""
+msgstr "Email"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:147
 msgid "Телеграм"
-msgstr ""
+msgstr "Telegram"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:150
 msgid "{communicate} добавлен. Желаете казать дополнительный контакт?"
-msgstr ""
+msgstr "{communicate} added. Would you like to specify an additional contact?"
 
 #: botexchange/apps/bot/handlers/sell_ads_menu.py:161
 msgid ""
 "Площадка успешно добавлена в каталог на 15 дней. По истечении срока вы "
 "сможете повторно добавить ее в каталог через раздел “мои площадки”"
 msgstr ""
+"The site has been successfully added to the catalog for 15 days. After "
+"the expiration date, you will be able to re-add it to the catalog through"
+" the “my sites” section"
 
 #: botexchange/apps/bot/markups/base_menu.py:10
 msgid "У меня есть реклама"
@@ -241,7 +269,7 @@ msgstr "Main Menu"
 
 #: botexchange/apps/bot/markups/sell_ads.py:11
 msgid "Добавить площадку"
-msgstr ""
+msgstr "Add a platform"
 
 #: botexchange/apps/bot/markups/sell_ads.py:12
 #: botexchange/apps/bot/markups/sell_ads.py:95
@@ -251,33 +279,33 @@ msgstr "Change the type of site"
 
 #: botexchange/apps/bot/markups/sell_ads.py:21
 msgid "Канал / чат"
-msgstr ""
+msgstr "Channel / Chat"
 
 #: botexchange/apps/bot/markups/sell_ads.py:22
 msgid "Бот"
-msgstr ""
+msgstr "Bot"
 
 #: botexchange/apps/bot/markups/sell_ads.py:39
 msgid "Готово"
-msgstr ""
+msgstr "Done"
 
 #: botexchange/apps/bot/markups/sell_ads.py:72
 #: botexchange/apps/bot/markups/sell_ads.py:83
 msgid "Телефон"
-msgstr ""
+msgstr "Phone"
 
 #: botexchange/apps/bot/markups/sell_ads.py:74
 #: botexchange/apps/bot/markups/sell_ads.py:85
 msgid "Использовать этот TG профиль"
-msgstr ""
+msgstr "Use this TG profile"
 
 #: botexchange/apps/bot/markups/sell_ads.py:86
 msgid "Опубликовать площадку"
-msgstr ""
+msgstr "Publish a platform"
 
 #: botexchange/apps/bot/markups/sell_ads.py:96
 msgid "Добавить еще площадку"
-msgstr ""
+msgstr "Add another platform"
 
 #: botexchange/apps/bot/markups/utils.py:12
 msgid "Авто/Мото"
