@@ -54,14 +54,14 @@ async def selling_menu(call: types.CallbackQuery, state: FSMContext):
         "Каждая площадка добавляется в каталог на 15 дней на безвозмездной основе,"
         " после чего автоматически снимается с публикации."
         " Ее можно заново опубликовать с помощью раздела “мои площадки”",
-        reply_markup=markups.sell_ads.selling_menu(),
+        reply_markup=markups.sale_ads.selling_menu(),
     )
 
 
 async def selling_start(call: types.CallbackQuery, state: FSMContext):
     await state.finish()
     await call.message.delete()
-    await call.message.answer("Укажите тип вашей рекламной площадки", reply_markup=markups.sell_ads.platform_type())
+    await call.message.answer("Укажите тип вашей рекламной площадки", reply_markup=markups.sale_ads.platform_type())
     await SellingAds.first()
 
 
@@ -72,7 +72,7 @@ async def platform_type(call: types.CallbackQuery, state: FSMContext):
         await state.update_data(platform_type=call.data)
     data = await state.get_data()
     if data["platform_type"] == "bot":
-        await call.message.answer(_("Пришлите юзернейм бота"), reply_markup=markups.sell_ads.add_platform())
+        await call.message.answer(_("Пришлите юзернейм бота"), reply_markup=markups.sale_ads.add_platform())
     else:
         await call.message.answer(
             _(
@@ -83,7 +83,7 @@ async def platform_type(call: types.CallbackQuery, state: FSMContext):
                 "информацию о нем.\n\nБот должен являться администратором канала на протяжении всего срока размещения "
                 "площадки, иначе она будет изъята из каталога досрочно"
             ),
-            reply_markup=markups.sell_ads.add_platform(),
+            reply_markup=markups.sale_ads.add_platform(),
         )
     await SellingAds.next()
 
@@ -95,7 +95,7 @@ async def add_platform(obj: types.Message | types.CallbackQuery, state: FSMConte
     else:
         await state.update_data(add_platform=obj.text)
     await obj.delete()
-    await obj.answer(_("Проверка успешно завершена"), reply_markup=markups.sell_ads.check())
+    await obj.answer(_("Проверка успешно завершена"), reply_markup=markups.sale_ads.check())
     await SellingAds.next()
 
 
@@ -103,7 +103,7 @@ async def check(call: types.CallbackQuery, state: FSMContext):
     await call.message.delete()
     if call.data != "back":
         await state.update_data(check=call.data)
-    await call.message.answer(_("Выберите тематику вашей площадки"), reply_markup=markups.sell_ads.thematics())
+    await call.message.answer(_("Выберите тематику вашей площадки"), reply_markup=markups.sale_ads.thematics())
     await SellingAds.next()
 
 
@@ -116,7 +116,7 @@ async def thematic(call: types.CallbackQuery, state: FSMContext):
             "Пришлите текст, описывающий вашу площадку. Нужно уместиться в 80 символов\n\n"
             "Например: “канал про топовые гаджеты с активной и вовлеченной аудиторией” "
         ),
-        reply_markup=markups.sell_ads.about(),
+        reply_markup=markups.sale_ads.about(),
     )
     await SellingAds.next()
 
@@ -133,7 +133,7 @@ async def about(obj: types.Message | types.CallbackQuery, state: FSMContext):
             "Укажите цену, которую собираетесь брать за размещение рекламы. "
             "Не забудьте указать валюту!\n\nНапример: “От 1 000 до 2 000 руб”"
         ),
-        reply_markup=markups.sell_ads.price(),
+        reply_markup=markups.sale_ads.price(),
     )
     await SellingAds.next()
 
@@ -147,7 +147,7 @@ async def price(obj: types.Message | types.CallbackQuery, state: FSMContext):
         await state.update_data(price=obj.text, communication_type=dict())
     await obj.answer(
         _("Выберите способ связи с вами. Он будет отображаться в вашем объявлении"),
-        reply_markup=markups.sell_ads.communication_type(),
+        reply_markup=markups.sale_ads.communication_type(),
     )
     await SellingAds.next()
 
@@ -175,7 +175,7 @@ async def communication_type(call: types.CallbackQuery, state: FSMContext):
         await communication(call, state)
         return
     await call.message.delete()
-    await call.message.answer(answer, reply_markup=markups.sell_ads.communication(okay))
+    await call.message.answer(answer, reply_markup=markups.sale_ads.communication(okay))
     await SellingAds.communication.set()
 
 
@@ -205,7 +205,7 @@ async def communication(obj: types.Message | types.CallbackQuery, state: FSMCont
     await state.update_data(data=data)
     await obj.answer(
         _("{communicate} добавлен. Желаете казать дополнительный контакт?").format(communicate=communicate),
-        reply_markup=markups.sell_ads.additional_communication(data["communication_type"].keys()),
+        reply_markup=markups.sale_ads.additional_communication(data["communication_type"].keys()),
     )
     await SellingAds.additional_communication.set()
 
@@ -220,7 +220,7 @@ async def additional_communication(call: types.CallbackQuery, state: FSMContext)
                 "По истечении срока вы сможете повторно добавить ее "
                 "в каталог через раздел “мои площадки”"
             ),
-            reply_markup=markups.sell_ads.finish(),
+            reply_markup=markups.sale_ads.finish(),
         )
 
         await call.message.answer(str(data))
@@ -239,11 +239,11 @@ async def finish(call: types.CallbackQuery, state: FSMContext):
     await call.message.delete()
     if call.data != "back":
         await state.update_data(finish=call.data)
-    await call.message.answer(_("Выберите интересующие тематики"), reply_markup=markups.sell_ads.finish())
+    await call.message.answer(_("Выберите интересующие тематики"), reply_markup=markups.sale_ads.finish())
     await SellingAds.next()
 
 
-def register_sell_ads_handlers(dp: Dispatcher):
+def register_sale_ads_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(selling_menu, text="selling_ads", state="*")
     dp.register_callback_query_handler(selling_start, text="add_platform")
     # todo 31.03.2022 12:00 taima: стадия

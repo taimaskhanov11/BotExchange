@@ -1,0 +1,14 @@
+bot:
+  # telegram bot token
+  token: your bot token
+
+  # telegram admins user_ids
+  admins:
+    - admin user id
+    - admin user id
+db:
+  username: postgres
+  password: postgres
+  host: localhost
+  port: 5432
+  db_name: botexchange

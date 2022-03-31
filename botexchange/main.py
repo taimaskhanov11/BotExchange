@@ -6,8 +6,9 @@ from aiogram.types import BotCommand
 from loguru import logger
 
 from botexchange.apps.bot.handlers.base_menu import register_base_handlers
-from botexchange.apps.bot.handlers.buying_ads_menu import register_buy_ads_handlers
-from botexchange.apps.bot.handlers.sale_ads_menu import register_sell_ads_handlers
+from botexchange.apps.bot.handlers.buying_ads_menu import register_buying_ads_handlers
+from botexchange.apps.bot.handlers.errors_handlers import register_error_handlers
+from botexchange.apps.bot.handlers.sale_ads_menu import register_sale_ads_handlers
 from botexchange.config.log_settings import init_logging
 from botexchange.db.db_main import init_tortoise
 from botexchange.loader import bot, dp
@@ -34,9 +35,9 @@ async def main():
 
     # Регистрация хэндлеров
     register_base_handlers(dp)
-    register_buy_ads_handlers(dp)
-    register_sell_ads_handlers(dp)
-
+    register_buying_ads_handlers(dp)
+    register_sale_ads_handlers(dp)
+    register_error_handlers(dp)
     # Регистрация middleware
     # dp.middleware.setup(TestMiddleware())
     # dp.middleware.setup(AuthMiddleware())
