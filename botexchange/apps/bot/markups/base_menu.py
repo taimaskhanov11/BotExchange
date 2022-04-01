@@ -9,13 +9,8 @@ def start_menu():
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [ibtn(_("У меня есть реклама"), "buying_ads")],
-            [
-                ibtn(_("У меня есть площадка для рекламы"), "selling_ads"),
-            ],
-            [
-                ibtn(_("Язык (language)"), "language"),
-                ibtn(_("Поддержка"), "support"),
-            ],
+            [ibtn(_("У меня есть площадка для рекламы"), "selling_ads")],
+            [ibtn(_("Язык (language)"), "language"), ibtn(_("Поддержка"), "support")],
         ],
     )
 
@@ -27,9 +22,7 @@ def language(lang):
         inline_keyboard=[
             # [lang_btn],
             [lang_btn],
-            [
-                ibtn(_("Главное меню"), "start"),
-            ],
+            [ibtn(_("Главное меню"), "start")],
             # [lang_btn2],
         ],
     )

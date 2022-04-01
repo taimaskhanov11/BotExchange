@@ -18,6 +18,8 @@ async def start(message: types.Message | types.CallbackQuery, state: FSMContext)
     if isinstance(message, types.CallbackQuery):
         message = message.message
     await message.delete()
+
+    print(await message.bot.get_chat(message.from_user.id))
     await state.finish()
     await message.answer(
         _(

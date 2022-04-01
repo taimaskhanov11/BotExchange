@@ -8,7 +8,7 @@ def ibtn(text, data):
     return InlineKeyboardButton(text=text, callback_data=data)
 
 
-def thematics(selected_list: list = None) -> InlineKeyboardMarkup:
+def thematics(selected_list: list = None, page: int = 1, edit=False) -> InlineKeyboardMarkup:
     # thematics_data = [
     #     [(_("Авто/Мото"), "auto"), (_("Спорт"), "sport")],
     #     [(_("Крипта"), "crypt"), (_("Инвестиции"), "investment")],
@@ -45,34 +45,13 @@ def thematics(selected_list: list = None) -> InlineKeyboardMarkup:
 
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [
-                ibtne(_("Авто/Мото"), "auto"),
-                ibtne(_("Спорт"), "sport"),
-            ],
-            [
-                ibtne(_("Крипта"), "crypt"),
-                ibtne(_("Инвестиции"), "investment"),
-            ],
-            [
-                ibtne(_("Авторский блог"), "blog"),
-                ibtne(_("Новости"), "news"),
-            ],
-            [
-                ibtne(_("Мемы"), "memes"),
-                ibtne(_("Музыка"), "music"),
-            ],
-            [
-                ibtne(_("Фильмы"), "films"),
-                ibtne(_("18+"), "18+"),
-            ],
-            [
-                ibtn(_("Влево"), "left"),
-                ibtn(_("Далее"), "next"),
-                ibtn(_("Вправо"), "right"),
-            ],
-            [
-                ibtn(_("Назад"), "back"),
-            ],
+            [ibtne(_("Авто/Мото"), "auto"), ibtne(_("Спорт"), "sport")],
+            [ibtne(_("Крипта"), "crypt"), ibtne(_("Инвестиции"), "investment")],
+            [ibtne(_("Авторский блог"), "blog"), ibtne(_("Новости"), "news")],
+            [ibtne(_("Мемы"), "memes"), ibtne(_("Музыка"), "music")],
+            [ibtne(_("Фильмы"), "films"), ibtne(_("18+"), "18+")],
+            [ibtn(_("Влево"), "left"), ibtn(_("Далее"), "next"), ibtn(_("Вправо"), "right")],
+            [ibtn(_("Назад"), "back")],
         ],
     )
 

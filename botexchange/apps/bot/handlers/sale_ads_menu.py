@@ -5,6 +5,7 @@ from loguru import logger
 
 from botexchange.apps.bot import markups
 from botexchange.apps.bot.handlers.base_menu import start
+from botexchange.apps.bot.validators.sale_ads_validator import SaleAdsValidator
 from botexchange.loader import _
 
 
@@ -14,6 +15,7 @@ class SellingAds(StatesGroup):
     check = State()
     thematic = State()
     about = State()
+    currency = State()
     price = State()
     communication_type = State()
     communication = State()
@@ -110,7 +112,13 @@ async def check(call: types.CallbackQuery, state: FSMContext):
 async def thematic(call: types.CallbackQuery, state: FSMContext):
     await call.message.delete()
     if call.data != "back":
-        await state.update_data(thematic=call.data)
+        if SaleAdsValidator.thematic(call.data):
+            await state.update_data(thematic=call.data)
+        else:
+            await call.message.answer(
+                _("Неправильный ввод. Выберите тематику из списка"), reply_markup=markups.sale_ads.thematics()
+            )
+            return
     await call.message.answer(
         _(
             "Пришлите текст, описывающий вашу площадку. Нужно уместиться в 80 символов\n\n"
@@ -124,15 +132,30 @@ async def thematic(call: types.CallbackQuery, state: FSMContext):
 async def about(obj: types.Message | types.CallbackQuery, state: FSMContext):
     if isinstance(obj, types.CallbackQuery):
         await obj.message.delete()
+        obj = obj.message
     else:
         await obj.delete()
-        await state.update_data(about=obj.text)
+        if SaleAdsValidator.about(obj.text):
+            await state.update_data(about=obj.text)
+        else:
+            await obj.answer(_("Длинна текста превышает 80 символов"))
+            return
+    await obj.answer(_("Выберите валюту"), reply_markup=markups.sale_ads.currency())
+    await SellingAds.next()
 
-    await obj.answer(
-        _(
-            "Укажите цену, которую собираетесь брать за размещение рекламы. "
-            "Не забудьте указать валюту!\n\nНапример: “От 1 000 до 2 000 руб”"
-        ),
+
+async def currency(call: types.CallbackQuery, state: FSMContext):
+    await call.message.delete()
+    if call.data != "back":
+        if SaleAdsValidator.currency(call.data):
+            await state.update_data(currency=call.data)
+        else:
+            await call.message.answer(
+                _("Неправильный ввод валюты, нажмите на кнопку ниже"), reply_markup=markups.sale_ads.currency()
+            )
+            return
+    await call.message.answer(
+        _("Пришлите цену, которую собираетесь брать за размещение рекламы" "\n\nНапример: “500” или ”400-1000”"),
         reply_markup=markups.sale_ads.price(),
     )
     await SellingAds.next()
@@ -144,7 +167,16 @@ async def price(obj: types.Message | types.CallbackQuery, state: FSMContext):
         obj = obj.message
     else:
         await obj.delete()
-        await state.update_data(price=obj.text, communication_type=dict())
+        if _price := SaleAdsValidator.price(obj.text):
+            await state.update_data(price=_price, communication_type=dict())
+        else:
+            await obj.answer(
+                _(
+                    "Не удалось найти цены, проверьте правильность ввода.\nЕсли вы указали промежуток, "
+                    "то минимальная сумма не должна превышать максимальную"
+                )
+            )
+            return
     await obj.answer(
         _("Выберите способ связи с вами. Он будет отображаться в вашем объявлении"),
         reply_markup=markups.sale_ads.communication_type(),
@@ -154,13 +186,21 @@ async def price(obj: types.Message | types.CallbackQuery, state: FSMContext):
 
 async def communication_type(call: types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
-
     if call.data != "back":
-        data["communication_type"].update({call.data: None})
-        await state.update_data(data=data)
-
+        if SaleAdsValidator.communication_type(call.data):
+            for i in ["phone", "tg", "email"]:
+                if data["communication_type"].get(i) is False:
+                    del data["communication_type"][i]
+            data["communication_type"].update({call.data: False})
+            await state.update_data(data=data)
+        else:
+            await call.message.answer(
+                _("Выберите способ связи из списка"),
+                reply_markup=markups.sale_ads.communication_type(),
+            )
+            return
     logger.trace(f"communication_type|{data=}")
-    choice = list(filter(lambda x: x[1] is None, data["communication_type"].items()))[0][0]
+    choice = list(filter(lambda x: x[1] is False, data["communication_type"].items()))[0][0]
     okay = False
     if choice == "phone":
         answer = _("Введите номер телефона\n\nНапример: ”+7 999 999 99 99”")
@@ -168,10 +208,6 @@ async def communication_type(call: types.CallbackQuery, state: FSMContext):
         answer = _("Введите Email\n\nНапример: ”example@example.com”")
     # tg
     else:
-        # todo 30.03.2022 23:50 taima: Провести проверку телеграмма
-        okay = True
-        answer = _("Вы выбрали добавление контакта телеграмма")
-        # await SellingAds.next()
         await communication(call, state)
         return
     await call.message.delete()
@@ -181,16 +217,15 @@ async def communication_type(call: types.CallbackQuery, state: FSMContext):
 
 async def communication(obj: types.Message | types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
-    choice = list(filter(lambda x: x[1] is None, data["communication_type"].items()))[0][0]
+    choice = list(filter(lambda x: x[1] is False, data["communication_type"].items()))[0][0]
     logger.info(f"{choice=}")
     if isinstance(obj, types.CallbackQuery):
-        logger.warning("Назад в коммуникации")
+        # logger.warning("Назад в коммуникации")
         # await obj.message.delete()
         # await SellingAds.previous()
         # await communication_type(obj, state)
         obj = obj.message
 
-    await obj.delete()
     logger.trace(f"communication|{data=}")
     if choice == "phone":
         data["communication_type"].update({choice: obj.text})
@@ -199,9 +234,15 @@ async def communication(obj: types.Message | types.CallbackQuery, state: FSMCont
         data["communication_type"].update({choice: obj.text})
         communicate = _("Имейл")
     else:
-        data["communication_type"].update({choice: True})
-        communicate = _("Телеграм")
-
+        if await SaleAdsValidator.communication_type_tg(obj.from_user.id):
+            data["communication_type"].update({choice: True})
+            communicate = _("Телеграм")
+        else:
+            del data["communication_type"][choice]
+            await state.update_data(data=data)
+            await obj.answer(_("Произошла ошибка. Ваш профиль должен быть открытым"))
+            return
+    await obj.delete()
     await state.update_data(data=data)
     await obj.answer(
         _("{communicate} добавлен. Желаете казать дополнительный контакт?").format(communicate=communicate),
@@ -260,6 +301,8 @@ def register_sale_ads_handlers(dp: Dispatcher):
 
     dp.register_callback_query_handler(about, state=SellingAds.about)
     dp.register_message_handler(about, state=SellingAds.about)
+
+    dp.register_callback_query_handler(currency, state=SellingAds.currency)
 
     dp.register_callback_query_handler(price, state=SellingAds.price)
     dp.register_message_handler(price, state=SellingAds.price)

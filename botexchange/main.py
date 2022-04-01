@@ -21,6 +21,8 @@ async def set_commands(bot: Bot):
     await bot.set_my_commands(commands)
 
 
+# todo 01.04.2022 1:08 taima:  tzlocal, scheduler
+# todo 01.04.2022 15:29 taima: F, Q tortoise;atomic;
 async def main():
     # Настройка логирования
     init_logging(old_logger=True, level="TRACE", old_level=logging.DEBUG, steaming=True)
