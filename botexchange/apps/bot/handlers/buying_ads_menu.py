@@ -5,8 +5,9 @@ from loguru import logger
 
 from botexchange.apps.bot import markups
 from botexchange.apps.bot.handlers.base_menu import start
-from botexchange.db.models import PlatformSearch
-from botexchange.loader import _
+from botexchange.apps.bot.validators.buying_ads_validator import BuyingAdsValidator
+from botexchange.config.config import MESSAGE_DELETE
+from botexchange.db.models import PlatformSearch, _
 
 
 class BuyingAds(StatesGroup):
@@ -34,8 +35,12 @@ async def back(call: types.CallbackQuery, state: FSMContext):
 
 async def buying_start(call: types.CallbackQuery, state: FSMContext):
     await state.finish()
-    await call.message.delete()
+    # await call.message.edit_text(_("Выберите тип Телеграм-площадки"))
+    # await call.message.edit_reply_markup(markups.buying_ads.platform_type())
+    if MESSAGE_DELETE:
+        await call.message.delete()
     await call.message.answer(_("Выберите тип Телеграм-площадки"), reply_markup=markups.buying_ads.platform_type())
+
     await BuyingAds.platform_type.set()
 
 
@@ -46,9 +51,11 @@ async def platform_type(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(page=1)
     if call.data != "back" and not thematics_list:
 
-        await call.message.delete()
+        if MESSAGE_DELETE:
+            await call.message.delete()
+
         # валидация
-        if not PlatformSearch.platform_type_validator(call.data):
+        if not BuyingAdsValidator.platform_type(call.data):
             logger.warning("Неправильный тип платформы")
             await call.message.answer(
                 _("Неправильный ввод, нажмите на кнопки ниже"), reply_markup=markups.buying_ads.platform_type()
@@ -70,7 +77,8 @@ async def thematic(call: types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
     logger.trace(f"thematic|{data=}")
     if call.data in ["next", "back"]:
-        await call.message.delete()
+        if MESSAGE_DELETE:
+            await call.message.delete()
         await call.message.answer(
             _("Укажите желаемый объем аудитории"), reply_markup=markups.buying_ads.audience_size()
         )
@@ -79,7 +87,7 @@ async def thematic(call: types.CallbackQuery, state: FSMContext):
         markups.buying_ads.thematics(data["thematics"], data.get("page"))
 
     else:
-        if PlatformSearch.thematic_validator(call.data):
+        if BuyingAdsValidator.thematic(call.data):
             if call.data in data["thematics"]:
                 data["thematics"].remove(call.data)
             else:
@@ -105,43 +113,84 @@ async def audience_size_specify(call: types.CallbackQuery, state: FSMContext):
 
 async def audience_size(call: types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
+
     if call.data != "back":
         is_edit = data.get("edit")
         if not is_edit:
-            data.update(audience_size=call.data)
+            _audience_size = BuyingAdsValidator.audience_size(call.data)
+            if _audience_size is not False:
+                await state.update_data(audience_size=_audience_size)
+            else:
+                await call.message.answer(_("Неправильный ввод, повторите попытку"))
+                return
         else:
             if is_edit == "thematic":
                 if call.data != "next":
-                    if call.data in data["thematics"]:
-                        data["thematics"].remove(call.data)
+                    if BuyingAdsValidator.thematic(call.data):
+                        if call.data in data["thematics"]:
+                            data["thematics"].remove(call.data)
+                        else:
+                            data["thematics"].append(call.data)
+                        await state.update_data(data)
+                        await call.message.edit_reply_markup(markups.buying_ads.thematics(data["thematics"]))
                     else:
-                        data["thematics"].append(call.data)
-                    await state.update_data(data)
-                    await call.message.edit_reply_markup(markups.buying_ads.thematics(data["thematics"]))
+                        logger.warning("Неправильный тип платформы")
+                        await call.message.answer(
+                            _("Неправильный тип платформы, нажмите на кнопки ниже"),
+                            reply_markup=markups.buying_ads.thematics(data["thematics"]),
+                        )
                     return
-
+            elif is_edit == "audience_size":
+                _audience_size = BuyingAdsValidator.audience_size(call.data)
+                if _audience_size is not False:
+                    data.update({is_edit: _audience_size})
+                    await state.update_data(data)
+                else:
+                    await call.message.answer(_("Неправильный ввод, повторите попытку"))
+                    return
             else:
                 data.update({is_edit: call.data})
                 await state.update_data(data)
+    data = await state.get_data()
     logger.trace(f"{data=}")
-    await call.message.delete()
-    await call.message.answer(_("Вам подойдут следующие площадки"), reply_markup=markups.buying_ads.edit_field())
-    await call.message.answer(str(data))
+    if MESSAGE_DELETE:
+        await call.message.delete()
+    # await call.message.answer(_("Вам подойдут следующие площадки"), reply_markup=markups.buying_ads.edit_field())
+    platform_searcher = PlatformSearch(**data)
+    find = await platform_searcher.search()
+
+    if not find:
+        answer = _("По вашим критерям ничего не найдено :(")
+    else:
+        answer = _("Вам подойдут следующие площадки:\n\n{find}").format(find=find)
+    await call.message.answer(answer, reply_markup=markups.buying_ads.edit_field(), parse_mode="HTML")
     await BuyingAds.edit_field.set()
 
 
 async def audience_size_message(message: types.Message, state: FSMContext):
-    # todo 01.04.2022 23:16 taima: parsing
-    await state.update_data(audience_size=message.text)
+    _audience_size = BuyingAdsValidator.audience_size(message.text)
+    if _audience_size is not False:
+        await state.update_data(audience_size=_audience_size)
+    else:
+        await message.answer(_("Неправильный ввод, повторите попытку"))
+        return
     data = await state.get_data()
-    await message.delete()
-    await message.answer(_("Вам подойдут следующие площадки"), reply_markup=markups.buying_ads.edit_field())
-    await message.answer(str(data))
+    if MESSAGE_DELETE:
+        await message.delete()
+    # await message.answer(_("Вам подойдут следующие площадки"), reply_markup=markups.buying_ads.edit_field())
+    platform_searcher = PlatformSearch(**data)
+    find = await platform_searcher.search()
+    if not find:
+        answer = _("По вашим критерям ничего не найдено :(")
+    else:
+        answer = _("Вам подойдут следующие площадки:\n\n{find}").format(find=find)
+    await message.answer(answer, reply_markup=markups.buying_ads.edit_field(), parse_mode="HTML")
     await BuyingAds.edit_field.set()
 
 
 async def edit_field(call: types.CallbackQuery, state: FSMContext):
-    await call.message.delete()
+    if MESSAGE_DELETE:
+        await call.message.delete()
     method = call.data
     data = await state.get_data()
     if method == "platform_type":

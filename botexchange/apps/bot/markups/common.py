@@ -1,7 +1,7 @@
 from pprint import pprint
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from botexchange.loader import _
+from botexchange.db.models import _
 
 
 def ibtn(text, data):

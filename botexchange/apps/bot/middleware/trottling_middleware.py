@@ -93,6 +93,6 @@ class ThrottlingMiddleware(BaseMiddleware):
         thr = await dispatcher.check_key(key)
 
         # If current message is not last with current key - do not send message
-        # todo 19.03.2022 17:36 taima:
+
         # if thr.exceeded_count == throttled.exceeded_count:
         #     await message.reply('Разблокирован.')

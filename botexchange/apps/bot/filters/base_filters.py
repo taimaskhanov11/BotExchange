@@ -20,7 +20,6 @@ class UserFilter(BoundFilter):
         )
         if _is_created:
             logger.info(f"Новый пользователь {user=}")
-
         return {"user": user}
 
 

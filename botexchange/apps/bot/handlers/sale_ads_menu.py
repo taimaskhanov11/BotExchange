@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
@@ -6,7 +8,8 @@ from loguru import logger
 from botexchange.apps.bot import markups
 from botexchange.apps.bot.handlers.base_menu import start
 from botexchange.apps.bot.validators.sale_ads_validator import SaleAdsValidator
-from botexchange.loader import _
+from botexchange.config.config import MESSAGE_DELETE
+from botexchange.db.models import AdvertisingPlatform, User, _
 
 
 class SellingAds(StatesGroup):
@@ -21,6 +24,10 @@ class SellingAds(StatesGroup):
     communication = State()
     additional_communication = State()
     finish = State()
+
+
+class AddBotPlatform(StatesGroup):
+    add = State()
 
 
 async def back(call: types.CallbackQuery, state: FSMContext):
@@ -51,7 +58,9 @@ async def selling_menu(call: types.CallbackQuery, state: FSMContext):
         await start(call, state)
         return
     await state.finish()
-    await call.message.delete()
+    if MESSAGE_DELETE:
+        await call.message.delete()
+
     await call.message.answer(
         "Каждая площадка добавляется в каталог на 15 дней на безвозмездной основе,"
         " после чего автоматически снимается с публикации."
@@ -62,55 +71,128 @@ async def selling_menu(call: types.CallbackQuery, state: FSMContext):
 
 async def selling_start(call: types.CallbackQuery, state: FSMContext):
     await state.finish()
-    await call.message.delete()
+    if MESSAGE_DELETE:
+        await call.message.delete()
     await call.message.answer("Укажите тип вашей рекламной площадки", reply_markup=markups.sale_ads.platform_type())
     await SellingAds.first()
 
 
-# todo 30.03.2022 22:49 taima: Проверить тип площадки и вывести соответствующее сообщение
 async def platform_type(call: types.CallbackQuery, state: FSMContext):
-    await call.message.delete()
+    if MESSAGE_DELETE:
+        await call.message.delete()
     if call.data != "back":
         await state.update_data(platform_type=call.data)
+
     data = await state.get_data()
     if data["platform_type"] == "bot":
-        await call.message.answer(_("Пришлите юзернейм бота"), reply_markup=markups.sale_ads.add_platform())
+        await call.message.answer(
+            _("Перешлите сюда любое сообщение из вашего бота"), reply_markup=markups.sale_ads.about()
+        )
+        await AddBotPlatform.add.set()
+        return
     else:
         await call.message.answer(
             _(
-                "Добавьте @Ad Maker Bot в список администраторов вашего канала или чата, и перешлите сюда любое "
-                "сообщение из него. Только таким образом мы сможем собрать точное число подписчиков, "
+                "Добавьте @{username} в список администраторов вашего канала или чата. "
+                "У него должны быть права для создания пригласительных ссылок\n"
+                "Только таким образом мы сможем собрать точное число подписчиков, "
                 "удостовериться что канал существует, и что вы его администратор.\n\nНе беспокойтесь - "
                 "бот не будет как-либо взаимодействовать с вашей аудиторией или каналом, а только соберет актуальную "
                 "информацию о нем.\n\nБот должен являться администратором канала на протяжении всего срока размещения "
-                "площадки, иначе она будет изъята из каталога досрочно"
-            ),
+                "площадки, иначе она будет изъята из каталога досрочно."
+                "\n\nПосле добавления и назначения администратором нажмите `Готово`"
+            ).format(username=(await call.bot.get_me()).username),
             reply_markup=markups.sale_ads.add_platform(),
         )
+        # await SellingAds.add.set()
     await SellingAds.next()
 
 
+async def add_bot_platform_call(call: types.CallbackQuery, state: FSMContext):
+    if call.data == "back":
+        # await SellingAds.platform_type.set()
+        await selling_start(call, state)
+
+
+async def add_bot_platform(message: types.Message, state: FSMContext):
+    data = await state.get_data()
+    forward = message.forward_from
+    pprint(message.to_python())
+    # pprint(f"{forward.to_python()=}")
+    if data["platform_type"] == "bot":
+        if forward:
+            if forward.is_bot:
+                await state.update_data(bot_info=forward.to_python())
+                await message.answer(
+                    _(
+                        "Чтобы удостовериться что вы владелец бота,"
+                        " добавьте к имени вашего бота `сheckingforaddition` на время проверки."
+                        " (Изменить название вашего бота можно через @BotFather)"
+                    ),
+                    reply_markup=markups.sale_ads.add_platform(),
+                )
+
+        else:
+            await message.answer(_("Это сообщения не из телеграм-бота, пожалуйста повторите попытку"))
+            return
+
+    await SellingAds.add_platform.set()
+
+
 # todo 30.03.2022 23:24 taima:  Проверки корректности
-async def add_platform(obj: types.Message | types.CallbackQuery, state: FSMContext):
-    if isinstance(obj, types.CallbackQuery):
-        obj = obj.message
-    else:
-        await state.update_data(add_platform=obj.text)
-    await obj.delete()
-    await obj.answer(_("Проверка успешно завершена"), reply_markup=markups.sale_ads.check())
+async def add_platform(call: types.CallbackQuery, state: FSMContext):
+    obj = call.message
+    data = await state.get_data()
+    chat_type = data["platform_type"]
+    if data["platform_type"] == "channel":
+        if chat_info := data.get("chat_info"):
+            chat_type = _("Чат") if chat_info["type"] == "supergroup" else _("Канал")
+        else:
+            await obj.answer(
+                _(
+                    "Не удалось найти ваш чат. Проверьте что вы добавляете бота как администратора со своего аккаунта."
+                    " Если не помогло попробуйте исключить и заново добавить бота в чат/канал"
+                )
+            )
+            return
+
+    elif data["platform_type"] == "bot":
+        bot_info = types.User.to_object(data.get("bot_info"))
+        new_bot_info = await call.bot.get_chat(bot_info.id)
+        logger.debug(bot_info)
+        logger.debug(new_bot_info)
+        if "сheckingforaddition" not in new_bot_info.first_name:
+            await call.message.answer(
+                _(
+                    "Не найдено изменений в имени бота, "
+                    "добавьте к названию вашего бота `сheckingforaddition` чтобы понять, "
+                    "что бот принадлежит вам"
+                )
+            )
+            return
+
+    if MESSAGE_DELETE:
+        await call.message.delete()
+    answer = _("Проверка успешно завершена, ваш {chat} найден")
+    if data["platform_type"] == "bot":
+        answer += _(". Можете вернуть имя бота")
+    await call.message.answer(answer.format(chat=chat_type), reply_markup=markups.sale_ads.check())
     await SellingAds.next()
 
 
 async def check(call: types.CallbackQuery, state: FSMContext):
-    await call.message.delete()
+    if MESSAGE_DELETE:
+        await call.message.delete()
     if call.data != "back":
         await state.update_data(check=call.data)
+
     await call.message.answer(_("Выберите тематику вашей площадки"), reply_markup=markups.sale_ads.thematics())
     await SellingAds.next()
 
 
 async def thematic(call: types.CallbackQuery, state: FSMContext):
-    await call.message.delete()
+    if MESSAGE_DELETE:
+        await call.message.delete()
     if call.data != "back":
         if SaleAdsValidator.thematic(call.data):
             await state.update_data(thematic=call.data)
@@ -131,10 +213,12 @@ async def thematic(call: types.CallbackQuery, state: FSMContext):
 
 async def about(obj: types.Message | types.CallbackQuery, state: FSMContext):
     if isinstance(obj, types.CallbackQuery):
-        await obj.message.delete()
+        if MESSAGE_DELETE:
+            await obj.message.delete()
         obj = obj.message
     else:
-        await obj.delete()
+        if MESSAGE_DELETE:
+            await obj.delete()
         if SaleAdsValidator.about(obj.text):
             await state.update_data(about=obj.text)
         else:
@@ -145,7 +229,8 @@ async def about(obj: types.Message | types.CallbackQuery, state: FSMContext):
 
 
 async def currency(call: types.CallbackQuery, state: FSMContext):
-    await call.message.delete()
+    if MESSAGE_DELETE:
+        await call.message.delete()
     if call.data != "back":
         if SaleAdsValidator.currency(call.data):
             await state.update_data(currency=call.data)
@@ -163,10 +248,12 @@ async def currency(call: types.CallbackQuery, state: FSMContext):
 
 async def price(obj: types.Message | types.CallbackQuery, state: FSMContext):
     if isinstance(obj, types.CallbackQuery):
-        await obj.message.delete()
+        if MESSAGE_DELETE:
+            await obj.message.delete()
         obj = obj.message
     else:
-        await obj.delete()
+        if MESSAGE_DELETE:
+            await obj.delete()
         if _price := SaleAdsValidator.price(obj.text):
             await state.update_data(price=_price, communication_type=dict())
         else:
@@ -210,7 +297,8 @@ async def communication_type(call: types.CallbackQuery, state: FSMContext):
     else:
         await communication(call, state)
         return
-    await call.message.delete()
+    if MESSAGE_DELETE:
+        await call.message.delete()
     await call.message.answer(answer, reply_markup=markups.sale_ads.communication(okay))
     await SellingAds.communication.set()
 
@@ -228,11 +316,20 @@ async def communication(obj: types.Message | types.CallbackQuery, state: FSMCont
 
     logger.trace(f"communication|{data=}")
     if choice == "phone":
-        data["communication_type"].update({choice: obj.text})
-        communicate = _("Номер")
+        if await SaleAdsValidator.communication_type_phone(obj.text):
+            data["communication_type"].update({choice: obj.text})
+            communicate = _("Номер")
+        else:
+            await obj.answer(_("Не удалось найти номер, проверьте правильность веденных данных и повторите попытку"))
+            return
     elif choice == "email":
-        data["communication_type"].update({choice: obj.text})
-        communicate = _("Имейл")
+        if await SaleAdsValidator.communication_type_email(obj.text):
+            data["communication_type"].update({choice: obj.text})
+            communicate = _("Имейл")
+        else:
+            await obj.answer(_("Не удалось найти email, проверьте правильность веденных данных и повторите попытку"))
+            return
+
     else:
         if await SaleAdsValidator.communication_type_tg(obj.from_user.id):
             data["communication_type"].update({choice: True})
@@ -242,7 +339,8 @@ async def communication(obj: types.Message | types.CallbackQuery, state: FSMCont
             await state.update_data(data=data)
             await obj.answer(_("Произошла ошибка. Ваш профиль должен быть открытым"))
             return
-    await obj.delete()
+    if MESSAGE_DELETE:
+        await obj.delete()
     await state.update_data(data=data)
     await obj.answer(
         _("{communicate} добавлен. Желаете казать дополнительный контакт?").format(communicate=communicate),
@@ -251,10 +349,62 @@ async def communication(obj: types.Message | types.CallbackQuery, state: FSMCont
     await SellingAds.additional_communication.set()
 
 
+# Finish
 async def additional_communication(call: types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
     if call.data == "finish":
-        await call.message.delete()
+        if MESSAGE_DELETE:
+            await call.message.delete()
+        await call.message.answer(str(data))
+        owner = await User.get(user_id=call.from_user.id)
+        _price = data.get("price")
+        if isinstance(_price, tuple):
+            _min_price, _max_price = _price
+        else:
+            _min_price = 0
+            _max_price = _price
+
+        common_platform_info = {
+            "owner": owner,
+            "about": data.get("about"),
+            "thematic": data.get("thematic"),
+            "currency": data.get("currency"),
+            "min_price": _min_price,
+            "max_price": _max_price,
+            "tg": data["communication_type"].get("tg"),
+            "phone": data["communication_type"].get("phone"),
+            "email": data["communication_type"].get("email"),
+            # "is_hidden": data.get("is_hidden"),
+            # "views": data.get("views"),
+            # "duration": data.get("duration"),
+        }
+        if data["platform_type"] == "bot":
+            common_platform_info.update(
+                {
+                    "platform_type": data["platform_type"],
+                    "chat_id": data["bot_info"].get("id"),
+                    "title": data["bot_info"].get("first_name"),
+                    "link": f'@{data["bot_info"].get("username")}',
+                }
+            )
+
+        else:
+            _platform_type = "group" if data["chat_info"].get("type") == "supergroup" else data["chat_info"].get("type")
+
+            common_platform_info.update(
+                {
+                    "platform_type": _platform_type,
+                    "chat_id": data["chat_info"].get("chat_id"),
+                    "title": data["chat_info"].get("title"),
+                    "link": data["chat_info"].get("link"),
+                    "audience_size": data["chat_info"].get("members_count"),
+                }
+            )
+
+        # Добавление площадки
+        platform = await AdvertisingPlatform.create(**common_platform_info)
+        logger.success(f"Платформа {platform} успешно создана")
+
         await call.message.answer(
             _(
                 "Площадка успешно добавлена в каталог на 15 дней. "
@@ -264,7 +414,6 @@ async def additional_communication(call: types.CallbackQuery, state: FSMContext)
             reply_markup=markups.sale_ads.finish(),
         )
 
-        await call.message.answer(str(data))
         await state.finish()
         # await SellingAds.next()
     else:
@@ -277,7 +426,8 @@ async def additional_communication(call: types.CallbackQuery, state: FSMContext)
 
 # todo 31.03.2022 1:05 taima: убрать
 async def finish(call: types.CallbackQuery, state: FSMContext):
-    await call.message.delete()
+    if MESSAGE_DELETE:
+        await call.message.delete()
     if call.data != "back":
         await state.update_data(finish=call.data)
     await call.message.answer(_("Выберите интересующие тематики"), reply_markup=markups.sale_ads.finish())
@@ -292,6 +442,10 @@ def register_sale_ads_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(back, text="back", state=SellingAds)
 
     dp.register_callback_query_handler(platform_type, state=SellingAds.platform_type)
+
+    # todo 02.04.2022 14:16 taima:
+    dp.register_message_handler(add_bot_platform, state=AddBotPlatform.add)
+    dp.register_callback_query_handler(add_bot_platform_call, state=AddBotPlatform.add)
 
     dp.register_callback_query_handler(add_platform, state=SellingAds.add_platform)
     dp.register_message_handler(add_platform, state=SellingAds.add_platform)

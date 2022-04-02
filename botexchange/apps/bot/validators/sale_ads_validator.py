@@ -1,28 +1,29 @@
+import re
+
+import phonenumbers
 from loguru import logger
 
+from botexchange.apps.bot.validators.common_validators import thematic_validator
 from botexchange.loader import bot
 
 
 class SaleAdsValidator:
     about_len_limit = 80
-    thematics = ("auto", "sport", "crypt", "investment", "blog", "news", "memes", "music", "films", "18+")
     currencies = ("rub", "usd", "eur", "uah")
     communication_types = ("phone", "email", "tg")
 
     @classmethod
-    def thematic(cls, text: str):
-        if text not in cls.thematics:
-            return False
-        return True
+    def thematic(cls, text: str) -> bool:
+        return thematic_validator(text)
 
     @classmethod
-    def about(cls, text: str):
+    def about(cls, text: str) -> bool:
         if len(text) > cls.about_len_limit:
             return False
         return True
 
     @classmethod
-    def currency(cls, text: str):
+    def currency(cls, text: str) -> bool:
         if text not in cls.currencies:
             return False
         return True
@@ -44,14 +45,41 @@ class SaleAdsValidator:
             return False
 
     @classmethod
-    def communication_type(cls, text: str):
+    def communication_type(cls, text: str) -> bool:
         if text not in cls.communication_types:
             return False
         return True
 
     @classmethod
-    async def communication_type_tg(cls, user_id: int):
+    async def communication_type_tg(cls, user_id: int) -> bool:
         user_info = await bot.get_chat(user_id)
         if user_info["type"] == "private":
             return False
         return True
+
+    @classmethod
+    async def phone(cls, user_id: int) -> bool:
+        user_info = await bot.get_chat(user_id)
+        if user_info["type"] == "private":
+            return False
+        return True
+
+    @classmethod
+    async def email(cls, user_id: int) -> bool:
+        user_info = await bot.get_chat(user_id)
+        if user_info["type"] == "private":
+            return False
+        return True
+
+    @classmethod
+    async def communication_type_phone(cls, text: str) -> bool:
+        if phonenumbers.parse(text, None):
+            return True
+        return False
+
+    @classmethod
+    async def communication_type_email(cls, text: str) -> bool:
+        match = re.match(r"[^@]+@[^@]+\.[^@]+", text.lower())
+        if match:
+            return True
+        return False

@@ -3,7 +3,7 @@ from loguru import logger
 
 
 async def error_handler(update, exception):
-    logger.exception(f"{exception=}|{update=}")
+    logger.exception(f"{exception}|{update}")
     return True
 
 

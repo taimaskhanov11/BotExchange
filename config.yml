@@ -6,6 +6,9 @@ bot:
   admins:
     - admin user id
     - admin user id
+  block_list:
+    - user id
+    - user id
 db:
   username: postgres
   password: postgres

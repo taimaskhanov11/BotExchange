@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Optional
 
 import yaml
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 BASE_DIR = Path(__file__).parent.parent.parent
 
@@ -15,7 +15,7 @@ def load_yaml(file) -> dict:
 class Bot(BaseModel):
     token: str
     admins: Optional[list[int]]
-
+    block_list: Optional[list[int]]
 
 class Database(BaseModel):
     username: str
@@ -32,5 +32,5 @@ class Config(BaseModel):
 
 I18N_DOMAIN = "botexchange"
 LOCALES_DIR = BASE_DIR / "botexchange/apps/bot/locales"
-
-config = Config(**load_yaml("config.yml"))
+MESSAGE_DELETE = True
+config = Config(**load_yaml("config_dev.yml"))
