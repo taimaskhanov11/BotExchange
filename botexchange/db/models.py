@@ -7,6 +7,7 @@ from aiogram.utils import markdown
 from loguru import logger
 from pydantic import BaseModel
 from tortoise import models, fields
+from tortoise.expressions import F
 
 from botexchange.config.config import I18N_DOMAIN, LOCALES_DIR
 from botexchange.loader import dp
@@ -61,6 +62,10 @@ class AdvertisingPlatform(models.Model):
         self.is_hidden = False
         await self.save()
 
+    async def incr_views(self):
+        self.views = F('views') + 1
+        await self.save(update_fields=['views'])
+
 
 class PlatformSearch(BaseModel):
     platform_type: typing.Optional[typing.Literal["channel", "group", "bot", "any", "chat"]]
@@ -108,6 +113,7 @@ class PlatformSearch(BaseModel):
         if platforms:
             for p in platforms:
                 count += 1
+                await p.incr_views()
                 res += f"{pretty_view(p, is_admin=False)}\n{'_' * 100}\n"
                 if count == 10:
                     break
@@ -143,7 +149,9 @@ def pretty_view(self, is_admin=True):
     phone = f"Phone. - {self.phone}\n" if self.phone else ""
     email = f"Email - {self.email}\n" if self.email else ""
     contacts = f"{tg}{phone}{email}"
-    duration = _("\nСтатус:\nАктивна. {duration} до деактивации").format(duration=self.duration) if is_admin else ""
+    duration = _("\nСтатус:\n{status}. {duration} до деактивации").format(duration=self.duration, status=_(
+        'Активна') if not self.is_hidden else _('Неактивна')) if is_admin else ""
+    views = _("Показы {views}").format(views=self.views) if is_admin else ""
     return _(
         """{link} ({platform_type} / {thematic}) - {about}
 
@@ -152,7 +160,9 @@ def pretty_view(self, is_admin=True):
 
 Контакты: 
 {contacts}
-{duration}"""
+{duration}
+{views}
+"""
     ).format(
         link=link,
         platform_type=self.platform_type,
@@ -162,6 +172,7 @@ def pretty_view(self, is_admin=True):
         price=markdown.hbold(price),
         contacts=contacts,
         duration=duration,
+        views=views,
     )
 
 
