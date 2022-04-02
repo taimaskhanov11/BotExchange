@@ -121,11 +121,12 @@ class PlatformSearch(BaseModel):
         count = 0
         if platforms:
             for p in platforms:
-                count += 1
-                await p.incr_views()
-                res += f"{pretty_view(p, is_admin=False)}\n{'_' * 100}\n"
-                if count == 10:
-                    break
+                if not p.is_hidden:
+                    count += 1
+                    await p.incr_views()
+                    res += f"{pretty_view(p, is_admin=False)}\n{'_' * 100}\n"
+                    if count == 10:
+                        break
         return res
 
 
