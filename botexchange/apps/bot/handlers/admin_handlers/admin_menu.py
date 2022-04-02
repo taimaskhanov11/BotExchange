@@ -89,7 +89,6 @@ async def ban_list(call: types.CallbackQuery, state: FSMContext):
 def register_admin_handlers(dp: Dispatcher):
     dp.register_message_handler(admin_menu, commands="admin")
     dp.register_callback_query_handler(admin_menu, text="admin")
-    dp.register_message_handler(admin_menu, commands="admin")
     dp.register_callback_query_handler(all_users, text="all_users")
     dp.register_callback_query_handler(ban, text="ban")
     dp.register_message_handler(ban_done, state=Ban.ban)

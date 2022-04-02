@@ -97,7 +97,7 @@ async def support(call: types.CallbackQuery, state: FSMContext, user: User):
 def register_base_handlers(dp: Dispatcher):
     dp.register_message_handler(start, UserFilter(), CommandStart(), state="*", chat_type=ChatType.PRIVATE)
     dp.register_callback_query_handler(start, text="start", state="*")
-    dp.register_callback_query_handler(support, text="language", state="*")
+    dp.register_callback_query_handler(support, text="support", state="*")
 
     dp.register_callback_query_handler(language, UserFilter(), text="language")
     dp.register_callback_query_handler(language_choice, UserFilter(), state=LanguageChoice.land_choice_state)
