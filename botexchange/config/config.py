@@ -33,4 +33,4 @@ class Config(BaseModel):
 I18N_DOMAIN = "botexchange"
 LOCALES_DIR = BASE_DIR / "botexchange/apps/bot/locales"
 MESSAGE_DELETE = True
-config = Config(**load_yaml("config_dev.yml"))
+config = Config(**load_yaml("config.yml"))
