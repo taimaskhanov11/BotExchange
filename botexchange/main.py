@@ -12,9 +12,10 @@ from botexchange.apps.bot.handlers.errors_handlers import register_error_handler
 from botexchange.apps.bot.handlers.platforms_info import register_platforms_info_handlers
 from botexchange.apps.bot.handlers.sale_ads_menu import register_sale_ads_handlers
 from botexchange.apps.bot.middleware.auth_middleware import AuthMiddleware
+from botexchange.apps.bot.utils.everyday_processes import views_update
 from botexchange.config.log_settings import init_logging
 from botexchange.db.db_main import init_tortoise
-from botexchange.loader import bot, dp
+from botexchange.loader import bot, dp, scheduler
 
 
 async def set_commands(bot: Bot):
@@ -56,9 +57,14 @@ async def main():
     # dp.filters_factory.bind(chat_type=ChatType.PRIVATE, user_id=config.bot.admins,event_handlers=admin_start )
 
     # asyncio.create_task(message_delete_worker())
-
+    scheduler.add_job(views_update, trigger="cron", hour=0, minute=0, second=0)
+    logger.info(f"Количество задач")
+    for j in scheduler.get_jobs():
+        logger.info(j)
     # Запуск поллинга
-    # await dp.skip_updates()  # пропуск накопившихся апдейтов (необязательно)
+    # await dp.skip_
+    # updates()  # пропуск накопившихся апдейтов (необязательно)
+    scheduler.start()
     await dp.skip_updates()
     await dp.start_polling()
 

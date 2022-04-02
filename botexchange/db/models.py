@@ -66,6 +66,15 @@ class AdvertisingPlatform(models.Model):
         self.views = F('views') + 1
         await self.save(update_fields=['views'])
 
+    async def decr_duration(self):
+        # self.views = F('views') - 1
+        self.duration -= 1
+        if self.duration <= 0:
+            self.is_hidden = True
+            logger.warning(f"{self.title} показ выключен")
+        await self.save()
+        # await self.refresh_from_db(fields=['views'])
+
 
 class PlatformSearch(BaseModel):
     platform_type: typing.Optional[typing.Literal["channel", "group", "bot", "any", "chat"]]
