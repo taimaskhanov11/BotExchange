@@ -47,7 +47,8 @@ async def ban_done(message: types.Message, state: FSMContext):
         else:
             u = await User.get(username=message.text)
             config.bot.block_list.append(u.user_id)
-        await message.answer(_(f"Пользователь {message.text} забанен"), reply_markup=markups.admin_menu.ban_done())
+        await message.answer(_("Пользователь {user} забанен").format(user=message.text),
+                             reply_markup=markups.admin_menu.ban_done())
         await state.finish()
     except Exception as e:
         logger.critical(e)
@@ -70,7 +71,7 @@ async def unban_done(message: types.Message, state: FSMContext):
         else:
             u = await User.get(username=message.text)
             config.bot.block_list.remove(u.user_id)
-        await message.answer(_(f"Пользователь {message.text} разбанен"), reply_markup=markups.admin_menu.unban_done())
+        await message.answer(_("Пользователь {user} разбанен").format(user=message.text), reply_markup=markups.admin_menu.unban_done())
         await state.finish()
     except Exception as e:
         logger.critical(e)
