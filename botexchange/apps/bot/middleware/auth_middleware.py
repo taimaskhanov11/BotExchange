@@ -1,13 +1,9 @@
-from pprint import pprint
-
 from aiogram import types
 from aiogram.dispatcher.handler import CancelHandler
 from aiogram.dispatcher.middlewares import BaseMiddleware
-from aiogram.types import ChatMemberUpdated
 from loguru import logger
 
 from botexchange.config.config import config
-from botexchange.db.models import User
 
 
 class AuthMiddleware(BaseMiddleware):

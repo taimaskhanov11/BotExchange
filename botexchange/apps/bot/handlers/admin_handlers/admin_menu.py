@@ -6,7 +6,8 @@ from loguru import logger
 
 from botexchange.apps.bot import markups
 from botexchange.config.config import config
-from botexchange.db.models import User, _
+from botexchange.db.models import User
+from botexchange.loader import _
 
 
 class Ban(StatesGroup):
@@ -36,7 +37,10 @@ async def all_users(call: types.CallbackQuery, state: FSMContext):
 
 async def ban(call: types.CallbackQuery, state: FSMContext):
     await Ban.ban.set()
-    await call.message.answer(_("Введите имя пользователя или username для бана"), reply_markup=ReplyKeyboardRemove())
+    await call.message.answer(
+        _("Введите имя пользователя или username для бана"),
+        reply_markup=ReplyKeyboardRemove(),
+    )
     await state.finish()
 
 
@@ -47,20 +51,27 @@ async def ban_done(message: types.Message, state: FSMContext):
         else:
             u = await User.get(username=message.text)
             config.bot.block_list.append(u.user_id)
-        await message.answer(_("Пользователь {user} забанен").format(user=message.text),
-                             reply_markup=markups.admin_menu.ban_done())
+        await message.answer(
+            _("Пользователь {user} забанен").format(user=message.text),
+            reply_markup=markups.admin_menu.ban_done(),
+        )
         await state.finish()
     except Exception as e:
         logger.critical(e)
         await message.answer(
-            _("Ошибка при удалении, проверьте правильность веденных данных",
-              reply_markup=markups.admin_menu.ban_done()))
+            _(
+                "Ошибка при удалении, проверьте правильность веденных данных",
+                reply_markup=markups.admin_menu.ban_done(),
+            )
+        )
 
 
 async def unban(call: types.CallbackQuery, state: FSMContext):
     await Ban.ban.set()
-    await call.message.answer(_("Введите имя пользователя или username для разбана"),
-                              reply_markup=ReplyKeyboardRemove())
+    await call.message.answer(
+        _("Введите имя пользователя или username для разбана"),
+        reply_markup=ReplyKeyboardRemove(),
+    )
     await state.finish()
 
 
@@ -71,13 +82,19 @@ async def unban_done(message: types.Message, state: FSMContext):
         else:
             u = await User.get(username=message.text)
             config.bot.block_list.remove(u.user_id)
-        await message.answer(_("Пользователь {user} разбанен").format(user=message.text), reply_markup=markups.admin_menu.unban_done())
+        await message.answer(
+            _("Пользователь {user} разбанен").format(user=message.text),
+            reply_markup=markups.admin_menu.unban_done(),
+        )
         await state.finish()
     except Exception as e:
         logger.critical(e)
         await message.answer(
-            _("Ошибка при удалении, проверьте правильность веденных данных",
-              reply_markup=markups.admin_menu.ban_done()))
+            _(
+                "Ошибка при удалении, проверьте правильность веденных данных",
+                reply_markup=markups.admin_menu.ban_done(),
+            )
+        )
 
 
 async def ban_list(call: types.CallbackQuery, state: FSMContext):

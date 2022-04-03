@@ -1,15 +1,13 @@
-from pprint import pprint
-
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram.utils import markdown
 from loguru import logger
 
 from botexchange.apps.bot import markups
 from botexchange.apps.bot.filters.base_filters import UserFilter
-
-from botexchange.db.models import User, AdvertisingPlatform, _, pretty_view
+from botexchange.apps.bot.utils.search_helpers import pretty_view
+from botexchange.db.models import AdvertisingPlatform, User
+from botexchange.loader import _
 
 
 class DeletePlatform(StatesGroup):
@@ -27,7 +25,8 @@ async def my_platforms(call: types.CallbackQuery, state: FSMContext, user: User)
             break
 
     await call.message.answer(
-        _("Ниже список всех ваших площадок"), reply_markup=markups.platforms_info.my_platforms(platforms)
+        _("Ниже список всех ваших площадок"),
+        reply_markup=markups.platforms_info.my_platforms(platforms),
     )
 
 
@@ -35,7 +34,9 @@ async def get_platform(call: types.CallbackQuery, state: FSMContext, user: User)
     pk = call.data[9:]
     platform = await AdvertisingPlatform.get(pk=pk)
     await call.message.answer(
-        pretty_view(platform), parse_mode=types.ParseMode.HTML, reply_markup=markups.platforms_info.platform_view(pk)
+        pretty_view(platform),
+        parse_mode=types.ParseMode.HTML,
+        reply_markup=markups.platforms_info.platform_view(pk),
     )
 
 

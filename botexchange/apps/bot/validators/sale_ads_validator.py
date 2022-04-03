@@ -13,8 +13,8 @@ class SaleAdsValidator:
     communication_types = ("phone", "email", "tg")
 
     @classmethod
-    def thematic(cls, text: str) -> bool:
-        return thematic_validator(text)
+    def thematic(cls, text: str, platform) -> bool:
+        return thematic_validator(text, platform)
 
     @classmethod
     def about(cls, text: str) -> bool:

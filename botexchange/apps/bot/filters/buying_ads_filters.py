@@ -1,6 +1,5 @@
 from aiogram import types
 from aiogram.dispatcher.filters import BoundFilter
-from loguru import logger
 
 
 class PlatformTypeFilter(BoundFilter):
@@ -11,7 +10,18 @@ class PlatformTypeFilter(BoundFilter):
 
 class ThematicFilter(BoundFilter):
     async def check(self, call: types.CallbackQuery):
-        if call.data in ["auto", "sport", "crypt", "investment", "blog", "news", "memes", "music", "films", "18+"]:
+        if call.data in [
+            "auto",
+            "sport",
+            "crypt",
+            "investment",
+            "blog",
+            "news",
+            "memes",
+            "music",
+            "films",
+            "18+",
+        ]:
             return True
 
 

@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup
 
-from botexchange.apps.bot.markups.common import ibtn, thematics
-from botexchange.db.models import _
+from botexchange.apps.bot.markups.common import ibtn
+from botexchange.loader import _
 
 
 def selling_menu():
@@ -105,7 +105,10 @@ def additional_communication(communication):
 def finish():
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [ibtn(_("Мои площадки"), "my_platforms"), ibtn(_("Добавить еще площадку"), "add_platform")],
+            [
+                ibtn(_("Мои площадки"), "my_platforms"),
+                ibtn(_("Добавить еще площадку"), "add_platform"),
+            ],
             [ibtn(_("Главное меню"), "start")],
             # [ibtn(_("Назад"), "back"), ],
         ],

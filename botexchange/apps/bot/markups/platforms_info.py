@@ -1,7 +1,8 @@
 from aiogram.types import InlineKeyboardMarkup
 
 from botexchange.apps.bot.markups.common import ibtn
-from botexchange.db.models import AdvertisingPlatform, _
+from botexchange.db.models import AdvertisingPlatform
+from botexchange.loader import _
 
 
 def my_platforms(platforms: list[AdvertisingPlatform]):
@@ -12,7 +13,14 @@ def my_platforms(platforms: list[AdvertisingPlatform]):
         inline_keyboard.append([ibtn(platform.title, f"platform_{platform.pk}")])
         if count > 50:
             break
-    inline_keyboard.extend([[ibtn(_("Добавить площадку"), "add_platform"), ibtn(_("Главное меню"), "start")]])
+    inline_keyboard.extend(
+        [
+            [
+                ibtn(_("Добавить площадку"), "add_platform"),
+                ibtn(_("Главное меню"), "start"),
+            ]
+        ]
+    )
     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
 
 

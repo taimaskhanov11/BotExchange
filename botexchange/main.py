@@ -5,11 +5,15 @@ from aiogram import Bot
 from aiogram.types import BotCommand
 from loguru import logger
 
-from botexchange.apps.bot.handlers.admin_handlers.admin_menu import register_admin_handlers
+from botexchange.apps.bot.handlers.admin_handlers.admin_menu import (
+    register_admin_handlers,
+)
 from botexchange.apps.bot.handlers.base_menu import register_base_handlers
 from botexchange.apps.bot.handlers.buying_ads_menu import register_buying_ads_handlers
 from botexchange.apps.bot.handlers.errors_handlers import register_error_handlers
-from botexchange.apps.bot.handlers.platforms_info import register_platforms_info_handlers
+from botexchange.apps.bot.handlers.platforms_info import (
+    register_platforms_info_handlers,
+)
 from botexchange.apps.bot.handlers.sale_ads_menu import register_sale_ads_handlers
 from botexchange.apps.bot.middleware.auth_middleware import AuthMiddleware
 from botexchange.apps.bot.utils.everyday_processes import views_update

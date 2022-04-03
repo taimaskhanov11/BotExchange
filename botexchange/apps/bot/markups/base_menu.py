@@ -2,7 +2,7 @@ from aiogram.types import InlineKeyboardMarkup
 from loguru import logger
 
 from botexchange.apps.bot.markups.common import ibtn
-from botexchange.db.models import _
+from botexchange.loader import _
 
 
 def start_menu():

@@ -9,7 +9,8 @@ from botexchange.apps.bot import markups
 from botexchange.apps.bot.handlers.base_menu import start
 from botexchange.apps.bot.validators.sale_ads_validator import SaleAdsValidator
 from botexchange.config.config import MESSAGE_DELETE
-from botexchange.db.models import AdvertisingPlatform, User, _
+from botexchange.db.models import AdvertisingPlatform, User
+from botexchange.loader import _
 
 
 class SellingAds(StatesGroup):
@@ -73,7 +74,10 @@ async def selling_start(call: types.CallbackQuery, state: FSMContext):
     await state.finish()
     if MESSAGE_DELETE:
         await call.message.delete()
-    await call.message.answer("Укажите тип вашей рекламной площадки", reply_markup=markups.sale_ads.platform_type())
+    await call.message.answer(
+        "Укажите тип вашей рекламной площадки",
+        reply_markup=markups.sale_ads.platform_type(),
+    )
     await SellingAds.first()
 
 
@@ -86,7 +90,8 @@ async def platform_type(call: types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
     if data["platform_type"] == "bot":
         await call.message.answer(
-            _("Перешлите сюда любое сообщение из вашего бота"), reply_markup=markups.sale_ads.about()
+            _("Перешлите сюда любое сообщение из вашего бота"),
+            reply_markup=markups.sale_ads.about(),
         )
         await AddBotPlatform.add.set()
         return
@@ -185,22 +190,40 @@ async def check(call: types.CallbackQuery, state: FSMContext):
         await call.message.delete()
     if call.data != "back":
         await state.update_data(check=call.data)
-
-    await call.message.answer(_("Выберите тематику вашей площадки"), reply_markup=markups.sale_ads.thematics())
+    await state.update_data(page=1)
+    data = await state.get_data()
+    await call.message.answer(
+        _("Выберите тематику вашей площадки"),
+        reply_markup=markups.common.thematics(data),
+    )
     await SellingAds.next()
 
 
 async def thematic(call: types.CallbackQuery, state: FSMContext):
-    if MESSAGE_DELETE:
-        await call.message.delete()
+    data = await state.get_data()
     if call.data != "back":
-        if SaleAdsValidator.thematic(call.data):
-            await state.update_data(thematic=call.data)
+        if SaleAdsValidator.thematic(call.data, data["platform_type"]):
+            if call.data == "left":
+                data["page"] -= 1
+                await call.message.edit_reply_markup(markups.common.thematics(data))
+                await state.update_data(data)
+                return
+            elif call.data == "right":
+                data["page"] += 1
+                await call.message.edit_reply_markup(markups.common.thematics(data))
+                await state.update_data(data)
+                return
+            else:
+                await state.update_data(thematic=call.data)
         else:
             await call.message.answer(
-                _("Неправильный ввод. Выберите тематику из списка"), reply_markup=markups.sale_ads.thematics()
+                _("Неправильный ввод. Выберите тематику из списка"),
+                reply_markup=markups.common.thematics(data),
             )
             return
+    if MESSAGE_DELETE:
+        await call.message.delete()
+
     await call.message.answer(
         _(
             "Пришлите текст, описывающий вашу площадку. Нужно уместиться в 80 символов\n\n"
@@ -236,7 +259,8 @@ async def currency(call: types.CallbackQuery, state: FSMContext):
             await state.update_data(currency=call.data)
         else:
             await call.message.answer(
-                _("Неправильный ввод валюты, нажмите на кнопку ниже"), reply_markup=markups.sale_ads.currency()
+                _("Неправильный ввод валюты, нажмите на кнопку ниже"),
+                reply_markup=markups.sale_ads.currency(),
             )
             return
     await call.message.answer(
@@ -355,7 +379,9 @@ async def additional_communication(call: types.CallbackQuery, state: FSMContext)
     if call.data == "finish":
         if MESSAGE_DELETE:
             await call.message.delete()
-        await call.message.answer(str(data))
+
+        # await call.message.answer(str(data))
+
         owner = await User.get(user_id=call.from_user.id)
         _price = data.get("price")
         if isinstance(_price, tuple):

@@ -1,16 +1,19 @@
 from loguru import logger
 
-from botexchange.apps.bot.validators.common_validators import thematic_validator, platform_type_validator
+from botexchange.apps.bot.validators.common_validators import (
+    thematic_validator,
+    platform_type_validator,
+)
 
 
 class BuyingAdsValidator:
     @classmethod
-    def platform_type(self, text: str) -> bool:
+    def platform_type(cls, text: str) -> bool:
         return platform_type_validator(text)
 
     @classmethod
-    def thematic(cls, text: str) -> bool:
-        return thematic_validator(text)
+    def thematic(cls, text: str, platform) -> bool:
+        return thematic_validator(text, platform)
 
     @classmethod
     def audience_size(cls, text: str) -> bool | tuple[int, int] | int:

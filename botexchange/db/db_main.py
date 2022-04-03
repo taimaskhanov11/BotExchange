@@ -9,7 +9,12 @@ async def init_tortoise():
     logger.debug(f"Инициализация BD {db.host}")
     data = {
         "db_url": f"postgres://{db.username}:{db.password}@{db.host}:{db.port}/{db.db_name}",
-        "modules": {"models": ["botexchange.db.models"]},
+        "modules": {
+            "models": [
+                "botexchange.db.models",
+                # "botexchange.db.main_models",
+            ]
+        },
     }
     try:
         await Tortoise.init(**data)

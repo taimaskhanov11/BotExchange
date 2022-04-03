@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup
 
-from botexchange.apps.bot.markups.common import ibtn, thematics
-from botexchange.db.models import _
+from botexchange.apps.bot.markups.common import ibtn
+from botexchange.loader import _
 
 
 def platform_type(edit=False):
@@ -41,7 +41,10 @@ def budget():
 def edit_field():
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [ibtn(_("Изм. тип площадки"), "platform_type"), ibtn(_("Изм. тематику"), "thematic")],
+            [
+                ibtn(_("Изм. тип площадки"), "platform_type"),
+                ibtn(_("Изм. тематику"), "thematic"),
+            ],
             [ibtn(_("Изм. аудиторию"), "audience_size")],
             # ibtn(_("Изм. бюджет"), "budget")],
             [ibtn(_("Главное меню"), "start")],

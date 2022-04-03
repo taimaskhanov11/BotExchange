@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup
 
 from botexchange.apps.bot.markups.common import ibtn
-from botexchange.db.models import _
+from botexchange.loader import _
 
 
 def admin_menu():
@@ -14,12 +14,16 @@ def admin_menu():
             [ibtn(_("Назад в меню"), "admin")],
         ],
     )
+
+
 def all_users():
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [ibtn(_("Назад в меню"), "admin")],
         ],
     )
+
+
 def ban_list():
     return InlineKeyboardMarkup(
         inline_keyboard=[
@@ -34,18 +38,24 @@ def ban():
             [ibtn(_("Назад в меню"), "admin")],
         ],
     )
+
+
 def ban_done():
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [ibtn(_("Назад в меню"), "admin")],
         ],
     )
+
+
 def unban():
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [ibtn(_("Назад в меню"), "admin")],
         ],
     )
+
+
 def unban_done():
     return InlineKeyboardMarkup(
         inline_keyboard=[

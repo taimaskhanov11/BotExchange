@@ -7,8 +7,8 @@ from loguru import logger
 
 from botexchange.apps.bot import markups
 from botexchange.apps.bot.filters.base_filters import UserFilter
-from botexchange.db.models import User, _
-from botexchange.loader import bot, storage
+from botexchange.db.models import User
+from botexchange.loader import bot, storage, _
 
 
 class LanguageChoice(StatesGroup):
@@ -18,13 +18,6 @@ class LanguageChoice(StatesGroup):
 async def start(message: types.Message | types.CallbackQuery, state: FSMContext):
     if isinstance(message, types.CallbackQuery):
         message = message.message
-
-    # answer =  markdown.text(
-    #     markdown.text(markdown.hunderline("Яблоки"), ", вес 1 кг."),
-    #     markdown.text("Старая цена:", markdown.hstrikethrough(50), "рублей"),
-    #     markdown.text("Новая цена:", markdown.hbold(25), "рублей"),
-    #     sep="\n"
-    # )
 
     await message.delete()
     await state.finish()
@@ -42,7 +35,10 @@ async def start(message: types.Message | types.CallbackQuery, state: FSMContext)
 async def language(call: types.CallbackQuery, state: FSMContext, user: User):
     logger.trace("language")
     await call.message.delete()
-    await call.message.answer(_("Выберите язык интерфейса"), reply_markup=markups.base_menu.language(user.language))
+    await call.message.answer(
+        _("Выберите язык интерфейса"),
+        reply_markup=markups.base_menu.language(user.language),
+    )
     await LanguageChoice.land_choice_state.set()
 
 
@@ -55,10 +51,6 @@ async def language_choice(call: types.CallbackQuery, state: FSMContext, user: Us
     # answer = _("Язык интерфейса изменен")
     await call.message.delete()
     await call.message.answer(answer, reply_markup=markups.base_menu.language_choice(user.language))
-
-
-async def chat_member(update: types.ChatMemberUpdated):
-    print(1, update.new_chat_member.is_chat_admin())
 
 
 @logger.catch

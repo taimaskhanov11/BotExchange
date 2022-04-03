@@ -5,9 +5,10 @@ from loguru import logger
 
 from botexchange.apps.bot import markups
 from botexchange.apps.bot.handlers.base_menu import start
+from botexchange.apps.bot.utils.search_helpers import PlatformSearch
 from botexchange.apps.bot.validators.buying_ads_validator import BuyingAdsValidator
 from botexchange.config.config import MESSAGE_DELETE
-from botexchange.db.models import PlatformSearch, _
+from botexchange.loader import _
 
 
 class BuyingAds(StatesGroup):
@@ -39,7 +40,10 @@ async def buying_start(call: types.CallbackQuery, state: FSMContext):
     # await call.message.edit_reply_markup(markups.buying_ads.platform_type())
     if MESSAGE_DELETE:
         await call.message.delete()
-    await call.message.answer(_("Выберите тип Телеграм-площадки"), reply_markup=markups.buying_ads.platform_type())
+    await call.message.answer(
+        _("Выберите тип Телеграм-площадки"),
+        reply_markup=markups.buying_ads.platform_type(),
+    )
 
     await BuyingAds.platform_type.set()
 
@@ -58,17 +62,20 @@ async def platform_type(call: types.CallbackQuery, state: FSMContext):
         if not BuyingAdsValidator.platform_type(call.data):
             logger.warning("Неправильный тип платформы")
             await call.message.answer(
-                _("Неправильный ввод, нажмите на кнопки ниже"), reply_markup=markups.buying_ads.platform_type()
+                _("Неправильный ввод, нажмите на кнопки ниже"),
+                reply_markup=markups.buying_ads.platform_type(),
             )
             return
+        data.update(platform_type=call.data, thematics=thematics_list, page=1)
+        await state.update_data(data)
 
-        await state.update_data(platform_type=call.data, thematics=thematics_list)
         await call.message.answer(
-            _("Выберите интересующие тематики"), reply_markup=markups.buying_ads.thematics(thematics_list)
+            _("Выберите интересующие тематики"),
+            reply_markup=markups.common.thematics(data),
         )
     else:
         logger.trace(call)
-        await call.message.edit_reply_markup(markups.buying_ads.thematics(thematics_list))
+        await call.message.edit_reply_markup(markups.common.thematics(data))
     await BuyingAds.thematic.set()
 
 
@@ -80,26 +87,30 @@ async def thematic(call: types.CallbackQuery, state: FSMContext):
         if MESSAGE_DELETE:
             await call.message.delete()
         await call.message.answer(
-            _("Укажите желаемый объем аудитории"), reply_markup=markups.buying_ads.audience_size()
+            _("Укажите желаемый объем аудитории"),
+            reply_markup=markups.buying_ads.audience_size(),
         )
         await BuyingAds.audience_size.set()
-    elif call.data.startswith("right") or call.data.startswith("left"):
-        markups.buying_ads.thematics(data["thematics"], data.get("page"))
 
     else:
-        if BuyingAdsValidator.thematic(call.data):
-            if call.data in data["thematics"]:
-                data["thematics"].remove(call.data)
+        if BuyingAdsValidator.thematic(call.data, data["platform_type"]):
+            if call.data == "left":
+                data["page"] -= 1
+            elif call.data == "right":
+                data["page"] += 1
             else:
-                data["thematics"].append(call.data)
+                if call.data in data["thematics"]:
+                    data["thematics"].remove(call.data)
+                else:
+                    data["thematics"].append(call.data)
             await state.update_data(data)
-            await call.message.edit_reply_markup(markups.buying_ads.thematics(data["thematics"]))
+            await call.message.edit_reply_markup(markups.common.thematics(data))
             # await platform_type(call, state)
         else:
             logger.warning("Неправильный тип платформы")
             await call.message.answer(
                 _("Неправильный тип платформы, нажмите на кнопки ниже"),
-                reply_markup=markups.buying_ads.thematics(data["thematics"]),
+                reply_markup=markups.common.thematics(data),
             )
 
 
@@ -126,18 +137,23 @@ async def audience_size(call: types.CallbackQuery, state: FSMContext):
         else:
             if is_edit == "thematic":
                 if call.data != "next":
-                    if BuyingAdsValidator.thematic(call.data):
-                        if call.data in data["thematics"]:
-                            data["thematics"].remove(call.data)
+                    if BuyingAdsValidator.thematic(call.data, data["platform_type"]):
+                        if call.data == "left":
+                            data["page"] -= 1
+                        elif call.data == "right":
+                            data["page"] += 1
                         else:
-                            data["thematics"].append(call.data)
+                            if call.data in data["thematics"]:
+                                data["thematics"].remove(call.data)
+                            else:
+                                data["thematics"].append(call.data)
                         await state.update_data(data)
-                        await call.message.edit_reply_markup(markups.buying_ads.thematics(data["thematics"]))
+                        await call.message.edit_reply_markup(markups.common.thematics(data))
                     else:
                         logger.warning("Неправильный тип платформы")
                         await call.message.answer(
                             _("Неправильный тип платформы, нажмите на кнопки ниже"),
-                            reply_markup=markups.buying_ads.thematics(data["thematics"]),
+                            reply_markup=markups.common.thematics(data),
                         )
                     return
             elif is_edit == "audience_size":
@@ -194,18 +210,22 @@ async def edit_field(call: types.CallbackQuery, state: FSMContext):
     method = call.data
     data = await state.get_data()
     if method == "platform_type":
-        await call.message.answer(_("Выберите тип Телеграм-площадки"), reply_markup=markups.buying_ads.platform_type())
+        await call.message.answer(
+            _("Выберите тип Телеграм-площадки"),
+            reply_markup=markups.buying_ads.platform_type(),
+        )
 
     elif method == "thematic":
-        thematics_list = data.get("thematics")
         await call.message.answer(
-            _("Выберите интересующие тематики"), reply_markup=markups.buying_ads.thematics(thematics_list)
+            _("Выберите интересующие тематики"),
+            reply_markup=markups.common.thematics(data),
         )
 
     # elif method == "audience_size":
     else:
         await call.message.answer(
-            _("Укажите желаемый объем аудитории"), reply_markup=markups.buying_ads.audience_size()
+            _("Укажите желаемый объем аудитории"),
+            reply_markup=markups.buying_ads.audience_size(),
         )
 
     await state.update_data(edit=method)
