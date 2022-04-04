@@ -116,7 +116,7 @@ def pretty_view(self, is_admin=True):
         "{link} ({platform_type} / {thematic}) - {about}\n\n"
         "{audience_size}"
         "Размещение - {price}\n\n"
-        "Контакты: {contacts}"
+        "Контакты:\n{contacts}"
         "{duration}{views}"
     ).format(
         link=link,
