@@ -27,9 +27,3 @@ class LanguageFilter(UserFilter):
     async def check(self, call: types.CallbackQuery):
         if call.data == "language":
             return super().check(call)
-
-
-# class LanguageChoice(UserFilter):
-#     async def check(self, call: types.CallbackQuery):
-#         if call.data == "language":
-#             return super().check(call)

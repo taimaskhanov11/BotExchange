@@ -8,6 +8,14 @@ def ibtn(text, data):
     return InlineKeyboardButton(text=text, callback_data=data)
 
 
+def back_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [ibtn(_("Назад"), "back")],
+        ],
+    )
+
+
 def thematics(data: dict) -> InlineKeyboardMarkup:
     _selected_list = data.get("thematics")
     _platform_type = data.get("platform_type")

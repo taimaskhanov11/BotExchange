@@ -64,6 +64,3 @@ class AdvertisingPlatform(models.Model):
             logger.warning(f"{self.title} показ выключен")
         await self.save()
         # await self.refresh_from_db(fields=['views'])
-
-
-# budget: typing.Optional[tuple[int, int] | int | str]

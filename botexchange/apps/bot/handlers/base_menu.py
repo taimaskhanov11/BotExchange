@@ -7,6 +7,7 @@ from loguru import logger
 
 from botexchange.apps.bot import markups
 from botexchange.apps.bot.filters.base_filters import UserFilter
+from botexchange.config.config import MESSAGE_DELETE
 from botexchange.db.models import User
 from botexchange.loader import bot, storage, _
 
@@ -18,8 +19,8 @@ class LanguageChoice(StatesGroup):
 async def start(message: types.Message | types.CallbackQuery, state: FSMContext):
     if isinstance(message, types.CallbackQuery):
         message = message.message
-
-    await message.delete()
+    if MESSAGE_DELETE:
+        await message.delete()
     await state.finish()
     await message.answer(
         _(
@@ -82,12 +83,12 @@ async def add_platform_chat_member(update: types.ChatMemberUpdated):
         logger.success(f"Add new chat {chat_data}")
 
 
-async def support(call: types.CallbackQuery, state: FSMContext, user: User):
+async def support(call: types.CallbackQuery, state: FSMContext):
     await call.message.answer("Группа поддержки - None")
 
 
 def register_base_handlers(dp: Dispatcher):
-    dp.register_message_handler(start, UserFilter(), CommandStart(), state="*", chat_type=ChatType.PRIVATE)
+    dp.register_message_handler(start, CommandStart(), state="*", chat_type=ChatType.PRIVATE)
     dp.register_callback_query_handler(start, text="start", state="*")
     dp.register_callback_query_handler(support, text="support", state="*")
 

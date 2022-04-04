@@ -46,7 +46,7 @@ async def extend_platform(call: types.CallbackQuery, state: FSMContext, user: Us
     platform = await AdvertisingPlatform.get(pk=pk)
     await platform.refresh_duration()
     await call.message.answer(
-        _("Срок активности обновлен. До деактивации {duration}".format(duration=platform.duration)),
+        _("Срок активности обновлен. До деактивации {duration} дней.".format(duration=platform.duration)),
         reply_markup=markups.platforms_info.extend_platform(),
     )
 
@@ -56,7 +56,7 @@ async def delete_platform(call: types.CallbackQuery, state: FSMContext, user: Us
     await state.update_data(delete_platform=pk)
     platform = await AdvertisingPlatform.get(pk=pk)
     await call.message.answer(
-        _("Уверены что хотите удалить площадку {title}").format(title=platform.title),
+        _("Уверены что хотите удалить площадку {title}?").format(title=platform.title),
         reply_markup=markups.platforms_info.delete_platform(),
     )
     await DeletePlatform.delete.set()

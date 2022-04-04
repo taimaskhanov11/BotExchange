@@ -33,7 +33,7 @@ class SaleAdsValidator:
         try:
             pr = map(lambda x: x.strip(), text.split("-"))
             pr = tuple(map(int, pr))
-            if pr == 2:
+            if len(pr) == 2:
                 _min, _max = pr
                 if _min > _max:
                     return False
@@ -83,3 +83,7 @@ class SaleAdsValidator:
         if match:
             return True
         return False
+
+
+if __name__ == "__main__":
+    print(SaleAdsValidator.price("700-900"))

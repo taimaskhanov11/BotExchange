@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-04-02 21:41+0300\n"
+"POT-Creation-Date: 2022-04-04 21:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,93 +17,104 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: botexchange/apps/bot/handlers/base_menu.py:32
+#: botexchange/apps/bot/handlers/base_menu.py:26
 msgid ""
 "Добро пожаловать в бесплатную биржу Telegram рекламы. Тут вы сможете "
 "найти каналы/ботов для размещения своего объявления, либо предоставить "
 "свой канал/бота для размещения чужих объявлений. С чего начнем?"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/base_menu.py:45
+#: botexchange/apps/bot/handlers/base_menu.py:40
 msgid "Выберите язык интерфейса"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:42
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:197
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:44
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:214
 msgid "Выберите тип Телеграм-площадки"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:61
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:65
 msgid "Неправильный ввод, нажмите на кнопки ниже"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:67
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:202
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:433
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:73
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:220
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:481
 msgid "Выберите интересующие тематики"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:83
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:208
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:90
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:227
 msgid "Укажите желаемый объем аудитории"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:101
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:139
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:112
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:155
 msgid "Неправильный тип платформы, нажмите на кнопки ниже"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:108
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:119
 msgid ""
 "Введите желаемый объем аудитории\n"
 "\n"
 "Например: “1000-2000” или ”2000-4000”"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:124
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:149
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:175
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:135
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:165
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:191
 msgid "Неправильный ввод, повторите попытку"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:163
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:184
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:179
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:200
 msgid "По вашим критерям ничего не найдено :("
 msgstr ""
 
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:165
-#: botexchange/apps/bot/handlers/buying_ads_menu.py:186
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:181
+#: botexchange/apps/bot/handlers/buying_ads_menu.py:202
 msgid ""
 "Вам подойдут следующие площадки:\n"
 "\n"
 "{find}"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/platforms_info.py:30
+#: botexchange/apps/bot/handlers/platforms_info.py:28
 msgid "Ниже список всех ваших площадок"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/platforms_info.py:48
-msgid "Срок активности обновлен. До деактивации {duration}"
+#: botexchange/apps/bot/handlers/platforms_info.py:49
+msgid "Срок активности обновлен. До деактивации {duration} дней."
 msgstr ""
 
-#: botexchange/apps/bot/handlers/platforms_info.py:58
-msgid "Уверены что хотите удалить площадку {title}"
+#: botexchange/apps/bot/handlers/platforms_info.py:59
+msgid "Уверены что хотите удалить площадку {title}?"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/platforms_info.py:70
+#: botexchange/apps/bot/handlers/platforms_info.py:71
 msgid "Площадка {title} удалена"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/platforms_info.py:72
+#: botexchange/apps/bot/handlers/platforms_info.py:73
 msgid "Удаление {title} отменено"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:89
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:67
+msgid ""
+"Каждая площадка добавляется в каталог на 15 дней на безвозмездной основе,"
+" после чего автоматически снимается с публикации. Ее можно заново "
+"опубликовать с помощью раздела “мои площадки”"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:79
+msgid "Укажите тип вашей рекламной площадки"
+msgstr ""
+
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:94
 msgid "Перешлите сюда любое сообщение из вашего бота"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:95
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:101
 msgid ""
 "Добавьте @{username} в список администраторов вашего канала или чата. У "
 "него должны быть права для создания пригласительных ссылок\n"
@@ -119,55 +130,55 @@ msgid ""
 "После добавления и назначения администратором нажмите `Готово`"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:127
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:133
 msgid ""
 "Чтобы удостовериться что вы владелец бота, добавьте к имени вашего бота "
 "`сheckingforaddition` на время проверки. (Изменить название вашего бота "
 "можно через @BotFather)"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:136
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:142
 msgid "Это сообщения не из телеграм-бота, пожалуйста повторите попытку"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:149
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:155
 msgid "Чат"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:149
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:155
 msgid "Канал"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:152
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:159
 msgid ""
 "Не удалось найти ваш чат. Проверьте что вы добавляете бота как "
 "администратора со своего аккаунта. Если не помогло попробуйте исключить и"
 " заново добавить бота в чат/канал"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:166
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:173
 msgid ""
 "Не найдено изменений в имени бота, добавьте к названию вашего бота "
-"`сheckingforaddition` чтобы понять, что бот принадлежит вам"
+"`сheckingforaddition` чтобы понять, что бот принадлежит вам."
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:176
-msgid "Проверка успешно завершена, ваш {chat} найден"
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:183
+msgid "Проверка успешно завершена, ваш {chat} {platform} найден."
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:178
-msgid ". Можете вернуть имя бота"
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:185
+msgid "Можете вернуть имя бота."
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:189
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:199
 msgid "Выберите тематику вашей площадки"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:201
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:223
 msgid "Неправильный ввод. Выберите тематику из списка"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:205
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:231
 msgid ""
 "Пришлите текст, описывающий вашу площадку. Нужно уместиться в 80 символов"
 "\n"
@@ -175,121 +186,123 @@ msgid ""
 "Например: “канал про топовые гаджеты с активной и вовлеченной аудиторией” "
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:225
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:251
 msgid "Длинна текста превышает 80 символов"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:227
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:253
 msgid "Выберите валюту"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:239
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:265
 msgid "Неправильный ввод валюты, нажмите на кнопку ниже"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:243
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:270
 msgid ""
 "Пришлите цену, которую собираетесь брать за размещение рекламы\n"
 "\n"
 "Например: “500” или ”400-1000”"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:261
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:288
 msgid ""
 "Не удалось найти цены, проверьте правильность ввода.\n"
 "Если вы указали промежуток, то минимальная сумма не должна превышать "
 "максимальную"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:268
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:296
 msgid "Выберите способ связи с вами. Он будет отображаться в вашем объявлении"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:285
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:313
 msgid "Выберите способ связи из списка"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:293
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:321
 msgid ""
 "Введите номер телефона\n"
 "\n"
 "Например: ”+7 999 999 99 99”"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:295
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:323
 msgid ""
 "Введите Email\n"
 "\n"
 "Например: ”example@example.com”"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:321
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:355
 msgid "Номер"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:323
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:358
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:363
 msgid ""
 "Не удалось найти номер, проверьте правильность веденных данных и "
 "повторите попытку"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:328
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:369
 #: botexchange/apps/bot/markups/sale_ads.py:77
 #: botexchange/apps/bot/markups/sale_ads.py:97
 msgid "Имейл"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:330
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:371
 msgid ""
 "Не удалось найти email, проверьте правильность веденных данных и "
 "повторите попытку"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:336
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:378
 msgid "Телеграм"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:340
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:382
 msgid "Произошла ошибка. Ваш профиль должен быть открытым"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:346
-msgid "{communicate} добавлен. Желаете казать дополнительный контакт?"
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:389
+msgid "{communicate} добавлен. Желаете указать дополнительный контакт?"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/sale_ads_menu.py:409
+#: botexchange/apps/bot/handlers/sale_ads_menu.py:457
 msgid ""
-"Площадка успешно добавлена в каталог на 15 дней. По истечении срока вы "
-"сможете повторно добавить ее в каталог через раздел “мои площадки”"
+"Площадка {platform_link} успешно добавлена в каталог на 15 дней. По "
+"истечении срока вы сможете повторно добавить ее в каталог через раздел "
+"“мои площадки”"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:25
+#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:26
 msgid "Доступные функции"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:34
-#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:85
+#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:35
+#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:102
 msgid "Пусто"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:39
+#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:41
 msgid "Введите имя пользователя или username для бана"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:50
+#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:55
 msgid "Пользователь {user} забанен"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:57
-#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:80
+#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:64
+#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:95
 msgid "Ошибка при удалении, проверьте правильность веденных данных"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:62
+#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:72
 msgid "Введите имя пользователя или username для разбана"
 msgstr ""
 
-#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:74
+#: botexchange/apps/bot/handlers/admin_handlers/admin_menu.py:86
 msgid "Пользователь {user} разбанен"
 msgstr ""
 
@@ -310,12 +323,12 @@ msgid "Разбанить пользователя"
 msgstr ""
 
 #: botexchange/apps/bot/markups/admin_menu.py:14
-#: botexchange/apps/bot/markups/admin_menu.py:20
-#: botexchange/apps/bot/markups/admin_menu.py:26
-#: botexchange/apps/bot/markups/admin_menu.py:34
-#: botexchange/apps/bot/markups/admin_menu.py:40
+#: botexchange/apps/bot/markups/admin_menu.py:22
+#: botexchange/apps/bot/markups/admin_menu.py:30
+#: botexchange/apps/bot/markups/admin_menu.py:38
 #: botexchange/apps/bot/markups/admin_menu.py:46
-#: botexchange/apps/bot/markups/admin_menu.py:52
+#: botexchange/apps/bot/markups/admin_menu.py:54
+#: botexchange/apps/bot/markups/admin_menu.py:62
 msgid "Назад в меню"
 msgstr ""
 
@@ -346,10 +359,10 @@ msgid "English"
 msgstr ""
 
 #: botexchange/apps/bot/markups/base_menu.py:25
-#: botexchange/apps/bot/markups/buying_ads.py:47
-#: botexchange/apps/bot/markups/platforms_info.py:15
+#: botexchange/apps/bot/markups/buying_ads.py:48
+#: botexchange/apps/bot/markups/platforms_info.py:20
 #: botexchange/apps/bot/markups/sale_ads.py:12
-#: botexchange/apps/bot/markups/sale_ads.py:109
+#: botexchange/apps/bot/markups/sale_ads.py:112
 msgid "Главное меню"
 msgstr ""
 
@@ -374,7 +387,8 @@ msgstr ""
 #: botexchange/apps/bot/markups/buying_ads.py:12
 #: botexchange/apps/bot/markups/buying_ads.py:24
 #: botexchange/apps/bot/markups/buying_ads.py:36
-#: botexchange/apps/bot/markups/common.py:54
+#: botexchange/apps/bot/markups/common.py:14
+#: botexchange/apps/bot/markups/common.py:237
 #: botexchange/apps/bot/markups/sale_ads.py:22
 #: botexchange/apps/bot/markups/sale_ads.py:31
 #: botexchange/apps/bot/markups/sale_ads.py:40
@@ -420,96 +434,277 @@ msgstr ""
 msgid "Изм. тип площадки"
 msgstr ""
 
-#: botexchange/apps/bot/markups/buying_ads.py:44
+#: botexchange/apps/bot/markups/buying_ads.py:45
 msgid "Изм. тематику"
 msgstr ""
 
-#: botexchange/apps/bot/markups/buying_ads.py:45
+#: botexchange/apps/bot/markups/buying_ads.py:46
 msgid "Изм. аудиторию"
 msgstr ""
 
-#: botexchange/apps/bot/markups/common.py:48
-msgid "Авто/Мото"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:48
-msgid "Спорт"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:49
-msgid "Крипта"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:49
-msgid "Инвестиции"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:50
-msgid "Авторский блог"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:50
-msgid "Новости"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:51
-msgid "Мемы"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:51
-msgid "Музыка"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:52
-msgid "Фильмы"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:52
-msgid "18+"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:53
+#: botexchange/apps/bot/markups/common.py:34
+#: botexchange/apps/bot/markups/common.py:37
+#: botexchange/apps/bot/markups/common.py:41
+#: botexchange/apps/bot/markups/common.py:46
 msgid "Влево"
 msgstr ""
 
-#: botexchange/apps/bot/markups/common.py:53
-msgid "Далее"
-msgstr ""
-
-#: botexchange/apps/bot/markups/common.py:53
+#: botexchange/apps/bot/markups/common.py:34
+#: botexchange/apps/bot/markups/common.py:35
+#: botexchange/apps/bot/markups/common.py:43
+#: botexchange/apps/bot/markups/common.py:45
 msgid "Вправо"
 msgstr ""
 
-#: botexchange/apps/bot/markups/platforms_info.py:15
+#: botexchange/apps/bot/markups/common.py:42
+#: botexchange/apps/bot/markups/common.py:45
+#: botexchange/apps/bot/markups/common.py:46
+msgid "Далее"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:62
+#: botexchange/apps/bot/markups/common.py:131
+msgid "Авто и мото"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:63
+#: botexchange/apps/bot/markups/common.py:135
+msgid "Бизнес и стартапы"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:65
+#: botexchange/apps/bot/markups/common.py:139
+msgid "Видеоигры"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:65
+#: botexchange/apps/bot/markups/common.py:143
+msgid "Другое"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:67
+#: botexchange/apps/bot/markups/common.py:155
+msgid "Инвестиции"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:68
+#: botexchange/apps/bot/markups/common.py:156
+msgid "Иностранные языки"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:71
+#: botexchange/apps/bot/markups/common.py:160
+msgid "Искусство и дизайн"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:72
+#: botexchange/apps/bot/markups/common.py:162
+msgid "Кино"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:75
+#: botexchange/apps/bot/markups/common.py:164
+msgid "Книги"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:76
+#: botexchange/apps/bot/markups/common.py:168
+msgid "Криптовалюты"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:83
+#: botexchange/apps/bot/markups/common.py:177
+msgid "Маркетинг и пиар"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:84
+#: botexchange/apps/bot/markups/common.py:180
+msgid "Мода и стиль"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:87
+#: botexchange/apps/bot/markups/common.py:181
+msgid "Мотивация и саморазвитие"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:88
+#: botexchange/apps/bot/markups/common.py:184
+msgid "Музыка"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:91
+#: botexchange/apps/bot/markups/common.py:185
+msgid "Наука и технологии"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:92
+#: botexchange/apps/bot/markups/common.py:188
+msgid "Недвижимость"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:95
+#: botexchange/apps/bot/markups/common.py:189
+msgid "Новости и сми"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:96
+#: botexchange/apps/bot/markups/common.py:192
+msgid "Образование"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:99
+#: botexchange/apps/bot/markups/common.py:193
+msgid "Отдых и развлечения"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:100
+#: botexchange/apps/bot/markups/common.py:204
+msgid "Работа и вакансии"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:107
+#: botexchange/apps/bot/markups/common.py:209
+msgid "Скидки и акции"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:108
+#: botexchange/apps/bot/markups/common.py:212
+msgid "Спорт"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:111
+#: botexchange/apps/bot/markups/common.py:213
+msgid "Ставки и азартные игры"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:112
+#: botexchange/apps/bot/markups/common.py:217
+msgid "Трейдинг"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:115
+#: botexchange/apps/bot/markups/common.py:224
+msgid "Фитнес"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:116
+#: botexchange/apps/bot/markups/common.py:225
+msgid "Хобби и развлечения"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:119
+#: botexchange/apps/bot/markups/common.py:228
+msgid "Экономика и финансы"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:120
+#: botexchange/apps/bot/markups/common.py:229
+msgid "Юмор и мемы"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:122
+#: botexchange/apps/bot/markups/common.py:233
+msgid "18+"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:132
+msgid "Авторские блоги"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:136
+msgid "В мире животных"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:140
+msgid "Дети и родители"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:144
+msgid "Еда и кулинария"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:147
+msgid "Здоровье и медицина"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:148
+msgid "Знаменитости и образ жизни"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:159
+msgid "Интернет технологии"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:162
+msgid "История"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:165
+msgid "Красота и уход"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:169
+msgid "Культура и события"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:176
+msgid "Любопытные факты"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:200
+msgid "Психология и отношения"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:201
+msgid "Путешествия и туризм"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:205
+msgid "Региональные"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:208
+msgid "Религия и духовность"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:216
+msgid "Строительство и ремонт"
+msgstr ""
+
+#: botexchange/apps/bot/markups/common.py:232
+msgid "Юриеспруденция"
+msgstr ""
+
+#: botexchange/apps/bot/markups/platforms_info.py:19
 #: botexchange/apps/bot/markups/sale_ads.py:10
 msgid "Добавить площадку"
 msgstr ""
 
-#: botexchange/apps/bot/markups/platforms_info.py:22
+#: botexchange/apps/bot/markups/platforms_info.py:30
 msgid "Продлить"
 msgstr ""
 
-#: botexchange/apps/bot/markups/platforms_info.py:23
+#: botexchange/apps/bot/markups/platforms_info.py:31
 msgid "Удалить"
 msgstr ""
 
-#: botexchange/apps/bot/markups/platforms_info.py:24
 #: botexchange/apps/bot/markups/platforms_info.py:32
-#: botexchange/apps/bot/markups/platforms_info.py:49
+#: botexchange/apps/bot/markups/platforms_info.py:40
+#: botexchange/apps/bot/markups/platforms_info.py:57
 #: botexchange/apps/bot/markups/sale_ads.py:11
-#: botexchange/apps/bot/markups/sale_ads.py:108
+#: botexchange/apps/bot/markups/sale_ads.py:109
 msgid "Мои площадки"
 msgstr ""
 
-#: botexchange/apps/bot/markups/platforms_info.py:40
+#: botexchange/apps/bot/markups/platforms_info.py:48
 msgid "Да"
 msgstr ""
 
-#: botexchange/apps/bot/markups/platforms_info.py:41
+#: botexchange/apps/bot/markups/platforms_info.py:49
 msgid "Нет"
 msgstr ""
 
-#: botexchange/apps/bot/markups/platforms_info.py:50
+#: botexchange/apps/bot/markups/platforms_info.py:58
 msgid "Добавить новую"
 msgstr ""
 
@@ -557,7 +752,46 @@ msgstr ""
 msgid "Опубликовать площадку"
 msgstr ""
 
-#: botexchange/apps/bot/markups/sale_ads.py:108
+#: botexchange/apps/bot/markups/sale_ads.py:110
 msgid "Добавить еще площадку"
+msgstr ""
+
+#: botexchange/apps/bot/utils/search_helpers.py:78
+msgid "от {min} до {max} {s}"
+msgstr ""
+
+#: botexchange/apps/bot/utils/search_helpers.py:80
+msgid "{max} {s}"
+msgstr ""
+
+#: botexchange/apps/bot/utils/search_helpers.py:82
+msgid "{_min} {s}"
+msgstr ""
+
+#: botexchange/apps/bot/utils/search_helpers.py:107
+msgid ""
+"\n"
+"Статус: {status}. {duration} дней до деактивации\n"
+msgstr ""
+
+#: botexchange/apps/bot/utils/search_helpers.py:109
+msgid "Активна"
+msgstr ""
+
+#: botexchange/apps/bot/utils/search_helpers.py:109
+msgid "Неактивна"
+msgstr ""
+
+#: botexchange/apps/bot/utils/search_helpers.py:114
+msgid "Показы: {views}\n"
+msgstr ""
+
+#: botexchange/apps/bot/utils/search_helpers.py:115
+msgid ""
+"{link} ({platform_type} / {thematic}) - {about}\n"
+"\n"
+"{audience_size}Размещение - {price}\n"
+"\n"
+"Контакты: {contacts}{duration}{views}"
 msgstr ""
 

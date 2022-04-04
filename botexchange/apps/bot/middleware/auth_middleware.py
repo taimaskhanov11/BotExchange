@@ -1,3 +1,5 @@
+import pprint
+
 from aiogram import types
 from aiogram.dispatcher.handler import CancelHandler
 from aiogram.dispatcher.middlewares import BaseMiddleware
@@ -8,7 +10,11 @@ from botexchange.config.config import config
 
 class AuthMiddleware(BaseMiddleware):
     async def on_pre_process_update(self, update: types.Update, data: dict):
-        logger.trace(update)
+        try:
+            logger.trace(pprint.pformat(update))
+        except Exception as e:
+            logger.critical(e)
+
         if update.message:
             obj = update.message
             if obj.from_user.id in config.bot.block_list:

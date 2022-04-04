@@ -3,6 +3,7 @@ from pprint import pprint
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
+from aiogram.utils import markdown
 from loguru import logger
 
 from botexchange.apps.bot import markups
@@ -63,9 +64,11 @@ async def selling_menu(call: types.CallbackQuery, state: FSMContext):
         await call.message.delete()
 
     await call.message.answer(
-        "Каждая площадка добавляется в каталог на 15 дней на безвозмездной основе,"
-        " после чего автоматически снимается с публикации."
-        " Ее можно заново опубликовать с помощью раздела “мои площадки”",
+        _(
+            "Каждая площадка добавляется в каталог на 15 дней на безвозмездной основе,"
+            " после чего автоматически снимается с публикации."
+            " Ее можно заново опубликовать с помощью раздела “мои площадки”"
+        ),
         reply_markup=markups.sale_ads.selling_menu(),
     )
 
@@ -75,7 +78,7 @@ async def selling_start(call: types.CallbackQuery, state: FSMContext):
     if MESSAGE_DELETE:
         await call.message.delete()
     await call.message.answer(
-        "Укажите тип вашей рекламной площадки",
+        _("Укажите тип вашей рекламной площадки"),
         reply_markup=markups.sale_ads.platform_type(),
     )
     await SellingAds.first()
@@ -152,16 +155,18 @@ async def add_platform(call: types.CallbackQuery, state: FSMContext):
     if data["platform_type"] == "channel":
         if chat_info := data.get("chat_info"):
             chat_type = _("Чат") if chat_info["type"] == "supergroup" else _("Канал")
+            platform = markdown.hlink(chat_info.get("title"), chat_info.get("link", "NONE"))
         else:
             await obj.answer(
                 _(
                     "Не удалось найти ваш чат. Проверьте что вы добавляете бота как администратора со своего аккаунта."
                     " Если не помогло попробуйте исключить и заново добавить бота в чат/канал"
-                )
+                ),
+                reply_markup=markups.sale_ads.add_platform(),
             )
             return
-
-    elif data["platform_type"] == "bot":
+    # data["platform_type"] == "bot":
+    else:
         bot_info = types.User.to_object(data.get("bot_info"))
         new_bot_info = await call.bot.get_chat(bot_info.id)
         logger.debug(bot_info)
@@ -171,17 +176,20 @@ async def add_platform(call: types.CallbackQuery, state: FSMContext):
                 _(
                     "Не найдено изменений в имени бота, "
                     "добавьте к названию вашего бота `сheckingforaddition` чтобы понять, "
-                    "что бот принадлежит вам"
-                )
+                    "что бот принадлежит вам."
+                ),
+                reply_markup=markups.sale_ads.add_platform(),
             )
             return
-
+        platform = f"@{bot_info.username}"
     if MESSAGE_DELETE:
         await call.message.delete()
-    answer = _("Проверка успешно завершена, ваш {chat} найден")
+    answer = _("Проверка успешно завершена, ваш {chat} {platform} найден.")
     if data["platform_type"] == "bot":
-        answer += _(". Можете вернуть имя бота")
-    await call.message.answer(answer.format(chat=chat_type), reply_markup=markups.sale_ads.check())
+        answer += _("Можете вернуть имя бота.")
+    await call.message.answer(
+        answer.format(chat=chat_type, platform=platform), reply_markup=markups.sale_ads.check(), parse_mode="HTML"
+    )
     await SellingAds.next()
 
 
@@ -285,7 +293,8 @@ async def price(obj: types.Message | types.CallbackQuery, state: FSMContext):
                 _(
                     "Не удалось найти цены, проверьте правильность ввода.\nЕсли вы указали промежуток, "
                     "то минимальная сумма не должна превышать максимальную"
-                )
+                ),
+                reply_markup=markups.common.back_keyboard(),
             )
             return
     await obj.answer(
@@ -340,18 +349,37 @@ async def communication(obj: types.Message | types.CallbackQuery, state: FSMCont
 
     logger.trace(f"communication|{data=}")
     if choice == "phone":
-        if await SaleAdsValidator.communication_type_phone(obj.text):
-            data["communication_type"].update({choice: obj.text})
-            communicate = _("Номер")
-        else:
-            await obj.answer(_("Не удалось найти номер, проверьте правильность веденных данных и повторите попытку"))
+        try:
+            # if not obj.text.startswith("+"):
+            #     await obj.answer(
+            #         _("Не удалось найти номер, проверьте правильность веденных данных и повторите попытку"),
+            #         markups.common.back_keyboard())
+            #     return
+            if await SaleAdsValidator.communication_type_phone(obj.text):
+                data["communication_type"].update({choice: obj.text})
+                communicate = _("Номер")
+            else:
+                await obj.answer(
+                    _("Не удалось найти номер, проверьте правильность веденных данных и повторите попытку"),
+                    reply_markup=markups.common.back_keyboard(),
+                )
+                return
+        except Exception as e:
+            logger.critical(e)
+            await obj.answer(
+                _("Не удалось найти номер, проверьте правильность веденных данных и повторите попытку"),
+                reply_markup=markups.common.back_keyboard(),
+            )
             return
     elif choice == "email":
         if await SaleAdsValidator.communication_type_email(obj.text):
             data["communication_type"].update({choice: obj.text})
             communicate = _("Имейл")
         else:
-            await obj.answer(_("Не удалось найти email, проверьте правильность веденных данных и повторите попытку"))
+            await obj.answer(
+                _("Не удалось найти email, проверьте правильность веденных данных и повторите попытку"),
+                reply_markup=markups.common.back_keyboard(),
+            )
             return
 
     else:
@@ -361,13 +389,15 @@ async def communication(obj: types.Message | types.CallbackQuery, state: FSMCont
         else:
             del data["communication_type"][choice]
             await state.update_data(data=data)
-            await obj.answer(_("Произошла ошибка. Ваш профиль должен быть открытым"))
+            await obj.answer(
+                _("Произошла ошибка. Ваш профиль должен быть открытым"), reply_markup=markups.common.back_keyboard()
+            )
             return
     if MESSAGE_DELETE:
         await obj.delete()
     await state.update_data(data=data)
     await obj.answer(
-        _("{communicate} добавлен. Желаете казать дополнительный контакт?").format(communicate=communicate),
+        _("{communicate} добавлен. Желаете указать дополнительный контакт?").format(communicate=communicate),
         reply_markup=markups.sale_ads.additional_communication(data["communication_type"].keys()),
     )
     await SellingAds.additional_communication.set()
@@ -430,14 +460,18 @@ async def additional_communication(call: types.CallbackQuery, state: FSMContext)
         # Добавление площадки
         platform = await AdvertisingPlatform.create(**common_platform_info)
         logger.success(f"Платформа {platform} успешно создана")
-
+        if data["platform_type"] == "bot":
+            platform_link = data.get("link")
+        else:
+            platform_link = markdown.hlink(data.get("title"), data.get("link"))
         await call.message.answer(
             _(
-                "Площадка успешно добавлена в каталог на 15 дней. "
+                "Площадка {platform_link} успешно добавлена в каталог на 15 дней. "
                 "По истечении срока вы сможете повторно добавить ее "
                 "в каталог через раздел “мои площадки”"
-            ),
+            ).format(platform_link=platform_link),
             reply_markup=markups.sale_ads.finish(),
+            parse_mode="HTML",
         )
 
         await state.finish()

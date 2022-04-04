@@ -57,7 +57,7 @@ class PlatformSearch(BaseModel):
                 if not p.is_hidden:
                     count += 1
                     await p.incr_views()
-                    res += f"{pretty_view(p, is_admin=False)}\n{'_' * 100}\n"
+                    res += f"{pretty_view(p, is_admin=False)}\n{'_' * 30}\n"
                     if count == 10:
                         break
         return res
@@ -84,34 +84,40 @@ def get_currency(_min, _max, cur):
 
 def pretty_view(self, is_admin=True):
     link = self.link if self.platform_type == "bot" else markdown.hlink(self.title, self.link)
-    audience_size = markdown.hbold(f"Аудитория - {self.audience_size:,}") if self.audience_size else ""
+    audience_size = markdown.hbold(f"Аудитория - {self.audience_size:,}\n") if self.audience_size else ""
     price = get_currency(self.min_price, self.max_price, self.currency)
 
     # link = markdown.hlink(self.title, "html.com")
-    tg = f"TG - {self.tg}\n" if self.tg else ""
-    phone = f"Phone. - {self.phone}\n" if self.phone else ""
-    email = f"Email - {self.email}\n" if self.email else ""
-    contacts = f"{tg}{phone}{email}"
+    # tg = f"TG - {self.tg}\n" if self.tg else ""
+    # phone = f"Phone. - {self.phone}\n" if self.phone else ""
+    # email = f"Email - {self.email}\n" if self.email else ""
+    # contacts = f"{tg}{phone}{email}"
+    # tg = f"TG - {self.tg}\n" if self.tg else ""
+    # phone = f"Phone. - {self.phone}\n" if self.phone else ""
+    # email = f"Email - {self.email}\n" if self.email else ""
+    contacts_list = []
+    if self.tg:
+        contacts_list.append(f"TG - {self.tg}")
+    if self.phone:
+        contacts_list.append(f"Phone. - {self.phone}")
+    if self.email:
+        contacts_list.append(f"Email - {self.email}")
+    contacts = "\n".join(contacts_list)
     duration = (
-        _("\nСтатус:\n{status}. {duration} до деактивации").format(
+        _("\nСтатус: {status}. {duration} дней до деактивации\n").format(
             duration=self.duration,
             status=_("Активна") if not self.is_hidden else _("Неактивна"),
         )
         if is_admin
         else ""
     )
-    views = _("Показы {views}").format(views=self.views) if is_admin else ""
+    views = _("Показы: {views}\n").format(views=self.views) if is_admin else ""
     return _(
-        """{link} ({platform_type} / {thematic}) - {about}
-
-{audience_size}
-Размещение - {price}
-
-Контакты: 
-{contacts}
-{duration}
-{views}
-"""
+        "{link} ({platform_type} / {thematic}) - {about}\n\n"
+        "{audience_size}"
+        "Размещение - {price}\n\n"
+        "Контакты: {contacts}"
+        "{duration}{views}"
     ).format(
         link=link,
         platform_type=self.platform_type,
