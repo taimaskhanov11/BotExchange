@@ -461,9 +461,9 @@ async def additional_communication(call: types.CallbackQuery, state: FSMContext)
         platform = await AdvertisingPlatform.create(**common_platform_info)
         logger.success(f"Платформа {platform} успешно создана")
         if data["platform_type"] == "bot":
-            platform_link = data.get("link")
+            platform_link = common_platform_info.get("link")
         else:
-            platform_link = markdown.hlink(data.get("title"), data.get("link"))
+            platform_link = markdown.hlink(common_platform_info.get("title"), common_platform_info.get("link"))
         await call.message.answer(
             _(
                 "Площадка {platform_link} успешно добавлена в каталог на 15 дней. "
