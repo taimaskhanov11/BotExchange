@@ -27,9 +27,11 @@ def my_platforms(platforms: list[AdvertisingPlatform]):
 def platform_view(pk):
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [ibtn(_("Продлить"), f"extend_{pk}")],
+            [ibtn(_("Продлить"), f"extend_{pk}"),
+             ibtn(_("Редактировать"), f"edit_platform_{pk}")],
             [ibtn(_("Удалить"), f"delete_{pk}")],
-            [ibtn(_("Мои площадки"), "my_platforms")],
+            [ibtn(_("Мои площадки"), "my_platforms"),
+             ibtn(_("Главное меню"), "start")],
         ],
     )
 
@@ -56,5 +58,28 @@ def delete_platform_done():
         inline_keyboard=[
             [ibtn(_("Мои площадки"), "my_platforms")],
             [ibtn(_("Добавить новую"), "add_platform")],
+        ],
+    )
+
+
+def edit_platform_platform():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [ibtn(_("Изменить тематику"), f"edit_thematic")],
+            [ibtn(_("Изменить описание"), f"edit_description")],
+            [ibtn(_("Изменить валюту"), f"edit_currency")],
+            [ibtn(_("Изменить цену"), f"edit_price")],
+            [ibtn(_("Изменить контакты"), f"edit_communication")],
+        ],
+    )
+
+
+def edit_platform_platform_done():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [ibtn(_("Изменить тематику"), f"edit_thematic")],
+            [ibtn(_("Изменить описание"), f"edit_description")],
+            [ibtn(_("Изменить цену"), f"edit_price")],
+            [ibtn(_("Изменить контакты"), f"edit_communication")],
         ],
     )

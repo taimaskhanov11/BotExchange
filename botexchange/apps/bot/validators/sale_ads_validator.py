@@ -52,6 +52,8 @@ class SaleAdsValidator:
 
     @classmethod
     async def communication_type_tg(cls, user_id: int) -> bool:
+        return True
+        # todo 05.04.2022 20:12 taima:
         user_info = await bot.get_chat(user_id)
         if user_info["type"] == "private":
             return False

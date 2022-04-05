@@ -341,20 +341,11 @@ async def communication(obj: types.Message | types.CallbackQuery, state: FSMCont
     choice = list(filter(lambda x: x[1] is False, data["communication_type"].items()))[0][0]
     logger.info(f"{choice=}")
     if isinstance(obj, types.CallbackQuery):
-        # logger.warning("Назад в коммуникации")
-        # await obj.message.delete()
-        # await SellingAds.previous()
-        # await communication_type(obj, state)
         obj = obj.message
 
     logger.trace(f"communication|{data=}")
     if choice == "phone":
         try:
-            # if not obj.text.startswith("+"):
-            #     await obj.answer(
-            #         _("Не удалось найти номер, проверьте правильность веденных данных и повторите попытку"),
-            #         markups.common.back_keyboard())
-            #     return
             if await SaleAdsValidator.communication_type_phone(obj.text):
                 data["communication_type"].update({choice: obj.text})
                 communicate = _("Номер")
@@ -383,8 +374,10 @@ async def communication(obj: types.Message | types.CallbackQuery, state: FSMCont
             return
 
     else:
-        if await SaleAdsValidator.communication_type_tg(obj.from_user.id):
-            data["communication_type"].update({choice: True})
+        logger.critical(type(obj))
+        if await SaleAdsValidator.communication_type_tg(obj.chat.id):
+            # data["communication_type"].update({choice: True})
+            data["communication_type"].update({choice: f"@{obj.chat.username}"})
             communicate = _("Телеграм")
         else:
             del data["communication_type"][choice]

@@ -10,6 +10,7 @@ class User(models.Model):
     last_name = fields.CharField(max_length=255, null=True)
     language = fields.CharField(max_length=3)
     referral = fields.ForeignKeyField("models.User", null=True)
+    advertisingplatforms: "AdvertisingPlatform"
 
     async def set_language(self, language):
         self.language = language
@@ -64,3 +65,41 @@ class AdvertisingPlatform(models.Model):
             logger.warning(f"{self.title} показ выключен")
         await self.save()
         # await self.refresh_from_db(fields=['views'])
+
+    async def update_thematic(self, thematic: str):
+        self.thematic = thematic
+        await self.save(update_fields=["thematic"])
+
+    async def update_about(self, description: str):
+        self.about = description
+        await self.save(update_fields=["about"])
+
+    async def update_currency(self, currency: str):
+        self.currency = currency
+        await self.save(update_fields=["currency"])
+
+    async def update_price(self, price: int | tuple[int, int]):
+        if isinstance(price, tuple):
+            _min_price, _max_price = price
+        else:
+            _min_price = 0
+            _max_price = price
+        self.min_price = _min_price
+        self.max_price = _max_price
+        await self.save(update_fields=["min_price", "max_price"])
+
+    async def update_phone(self, phone: str):
+        self.phone = phone
+        await self.save(update_fields=["phone"])
+
+    async def update_email(self, email: str):
+        self.email = email
+        await self.save(update_fields=["email"])
+
+    async def update_tg(self, tg: str):
+        self.tg = tg
+        await self.save(update_fields=["tg"])
+
+    async def update_communication(self, thematic: str):
+        self.thematic = thematic
+        await self.save(update_fields=["thematic"])
