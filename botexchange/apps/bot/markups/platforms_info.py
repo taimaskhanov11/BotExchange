@@ -65,10 +65,10 @@ def delete_platform_done():
 def edit_platform_platform(pk):
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [ibtn(_("Изменить тематику"), f"edit_thematic")],
-            [ibtn(_("Изменить описание"), f"edit_description")],
-            [ibtn(_("Изменить валюту"), f"edit_currency")],
-            [ibtn(_("Изменить цену"), f"edit_price")],
+            [ibtn(_("Изменить тематику"), f"edit_thematic"),
+             ibtn(_("Изменить описание"), f"edit_description")],
+            [ibtn(_("Изменить валюту"), f"edit_currency"),
+             ibtn(_("Изменить цену"), f"edit_price")],
             [ibtn(_("Изменить контакты"), f"edit_communication")],
             [ibtn(_("Назад"), f"platform_{pk}")],
         ],
