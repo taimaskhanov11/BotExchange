@@ -75,7 +75,7 @@ class SaleAdsValidator:
 
     @classmethod
     async def communication_type_phone(cls, text: str) -> bool:
-        if phonenumbers.parse(text, None):
+        if phonenumbers.parse(text, _check_region=False):
             return True
         return False
 
