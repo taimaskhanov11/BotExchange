@@ -116,7 +116,7 @@ async def delete_platform_done(call: types.CallbackQuery, state: FSMContext):
 async def edit_platform(call: types.CallbackQuery, state: FSMContext):
     pk = call.data[14:]
     await state.update_data(pk=pk)
-    await call.message.edit_reply_markup(markups.platforms_info.edit_platform_platform())
+    await call.message.edit_reply_markup(markups.platforms_info.edit_platform_platform(pk))
 
 
 async def edit_thematic(call: types.CallbackQuery, state: FSMContext):
