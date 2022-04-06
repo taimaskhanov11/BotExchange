@@ -11,7 +11,7 @@
 2.4 poetry update --no-dev
 2.5 poetry run python botexchange/main.py
 
-
+Установка переводов
 pybabel extract .\botexchange\ -o .\botexchange\apps\bot\locales\botexchange.pot
 pybabel init -i .\botexchange\apps\bot\locales\botexchange.pot -d .\botexchange\apps\bot\locales\ -D botexchange -l ru
 pybabel init -i .\botexchange\apps\bot\locales\botexchange.pot -d .\botexchange\apps\bot\locales\ -D botexchange -l en
